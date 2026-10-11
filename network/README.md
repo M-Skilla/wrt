@@ -1,304 +1,239 @@
-# The WRT Fabric network, explained
+# The WRT network, from zero
 
-This folder builds the blockchain that WRT runs on: four organisations that each keep their own copy of the ledger and must agree before anything changes.
-
-Read this top to bottom once. Sections 1–3 are the mental model; 4–6 map that model onto the actual files and commands; 7–8 are for when something breaks.
+This guide explains what's in `network/` without assuming you know anything about Fabric. Read **Part 1** first: it's a story, no commands. **Part 2** has you run things and watch. **Part 3** is reference for later.
 
 ---
 
-## 1. The big idea in one paragraph
+# Part 1: Understand it
 
-There is no central database. Each of the four orgs (Warehouse, Lender, Inspector, Regulator) runs its own **peer**, and each peer keeps a full copy of the ledger in its own **CouchDB**. To change anything, a client must get **3 of the 4 peers** to run the chaincode and sign the result (**endorse** it). An **orderer** puts signed transactions into blocks, in order. Then **every peer independently checks** each transaction in the block and only applies it if the signatures satisfy the rules. Nobody, not even the Warehouse holding the crop, can change the ledger alone.
+## 1. The problem
 
----
+A farmer stores 12,400 kg of maize at a warehouse and gets a receipt. A bank lends money against that receipt.
 
-## 2. Who is who: the 14 containers
+Four parties care about that receipt, and none of them fully trusts the others:
 
-```
-                    ┌────────────────────────┐
-                    │  orderer.wrt.local     │  OrdererMSP: puts txs into blocks.
-                    │  (Raft, 1 node)        │  Does NOT validate or run chaincode.
-                    └───────────┬────────────┘
-         ┌──────────────┬───────┴──────┬──────────────┐
-   peer0.warehouse  peer0.lender  peer0.inspector  peer0.regulator    run chaincode, endorse,
-   + couchdb        + couchdb     + couchdb        + couchdb          validate, keep the ledger
-   + ca.warehouse   + ca.lender   + ca.inspector   + ca.regulator     + ca.orderer (5th CA)
-```
+- the **Warehouse** could inflate the weight to look good;
+- the **Lender** wants proof the crop is real before lending;
+- the **Inspector** checks the crop, but could be bribed;
+- the **Regulator** (WRRB) needs to audit everything afterwards.
 
-| Container | Belongs to | Job |
+If the receipt lives in **one** database, whoever runs that database can quietly change it. That's the problem WRT solves.
+
+## 2. The idea: four notebooks instead of one database
+
+Imagine four clerks, one from each party, sitting in four different offices. **Each keeps their own copy of the same notebook.**
+
+To add or change an entry (say, "issue receipt WRT-WH001-000123 for 12,400 kg"):
+
+1. You take your request to the clerks. **At least 3 of the 4 must agree.** Each one checks it against the rulebook and their own notebook, then signs it.
+2. You hand the signed request to a **messenger**. The messenger collects requests from everyone, numbers them, and bundles them into pages.
+3. The messenger delivers each page to **all four clerks**.
+4. **Each clerk checks the signatures again, by themselves.** Only entries with 3 valid signatures get written in. Entries without them are kept on the page but crossed out as invalid.
+
+Now nobody can cheat alone. If the Warehouse clerk writes "15,000 kg" on their own, they can't get two more signatures, and the other three notebooks still say 12,400. And because every page is kept forever, including the crossed-out entries, any attempt to cheat leaves a trace.
+
+**That is the whole idea of this network.** Everything else is machinery to make it work with computers.
+
+## 3. The same story with the real names
+
+| In the story | Real name | In our network |
 |---|---|---|
-| `ca.<org>.wrt.local` | each org (+ orderer org) | Issues that org's certificates. The root of the org's identity. |
-| `peer0.<org>.wrt.local` | each of the 4 orgs | Runs chaincode, signs (endorses) results, validates every block, stores the ledger. |
-| `couchdb.<org>.wrt.local` | each of the 4 orgs | The peer's **world state**: the current value of every key, queryable as JSON. |
-| `orderer.wrt.local` | OrdererMSP | Orders transactions into blocks and sends blocks to peers. |
-| `dev-peer0.<org>…-hello_1.0…` | each peer | The chaincode itself, running in its own container that the peer starts. Not in compose. |
+| A party (Warehouse, Lender, …) | **Organisation (org)** | 4 orgs: Warehouse, Lender, Inspector, Regulator |
+| A clerk | **Peer** | `peer0.warehouse.wrt.local`, `peer0.lender…`, `peer0.inspector…`, `peer0.regulator…` |
+| The notebook, all pages | **Ledger** (a chain of **blocks**) | stored inside each peer |
+| The "current totals" page at the front | **World state** | each peer's **CouchDB** database |
+| The rulebook | **Chaincode** (smart contract) | now: the tiny `chaincode/hello`; from milestone 3: the real WRT code |
+| "3 of 4 must sign" | **Endorsement policy** | `OutOf(3, …)` in `scripts/deploy-cc.sh` |
+| A clerk signing a request | **Endorsing** | |
+| The messenger | **Orderer** | `orderer.wrt.local` |
+| A page | **Block** | |
+| The shared notebook everyone agreed to keep | **Channel** | `wrt-channel` |
 
-**Ledger vs world state.** The *ledger* is the chain of blocks: every transaction ever, valid or not. The *world state* (CouchDB) is just "the latest value of each key", derived from the valid transactions. You can delete CouchDB and the peer can rebuild it from the blocks; the opposite isn't true.
+Two things people often get wrong:
+
+- **Signing isn't writing.** When a peer endorses, it only *tries out* the request and signs the result. Nothing is written until the block comes back in step 4.
+- **The messenger doesn't judge.** The orderer just puts things in order. The checking is done by each peer, independently. That's why no single computer has to be trusted.
+
+## 4. ID cards: how a clerk knows who you are
+
+Clerks only accept signatures from real clerks, and requests from real people. So everyone carries an **ID card**: a digital certificate.
+
+**Each org has its own ID card office**, called a **CA** (Certificate Authority): `ca.warehouse`, `ca.lender`, and so on. The office prints cards with a stamp only it can make.
+
+A card says, roughly:
+
+```
+Issued by:  Warehouse ID office
+Name:       frm-001-farmer
+Job:        client          ← "peer", "admin" or "client"
+role:       farmer          ← WRT-specific
+entityId:   FRM-001         ← WRT-specific: which farmer/warehouse/bank this person acts for
+```
+
+**How does a clerk check a card?** They don't phone the ID office. Each clerk has a **reference list** for every org: "this is what a genuine Warehouse stamp looks like, and this is how to read the Job field." That reference list is called an **MSP** (Membership Service Provider).
+
+- **CA** = the office that *prints* cards. Only needed when someone gets a new card.
+- **MSP** = the *list for checking* cards. Used on every single request.
+
+We tested this: we switched the Warehouse CA off, and the Warehouse could still do business. The clerks only need the MSP.
+
+**One subtle point that matters later.** Every org prints its own cards. So the *Lender's* office could print a card saying "role: regulator". The card would be genuine, just issued by the wrong office. So when the WRT rulebook checks who you are, it must ask **two** things: *what's your role?* and *which org issued your card?* A regulator card only counts if the **Regulator** issued it.
+
+**Where do farmers get cards?** Farmers don't run a clerk of their own. That would be too expensive for a farmer. The Warehouse ID office prints their cards, so they act as Warehouse-org members. Same for small banks (MFIs) via the Lender office. The spec calls this *hosted* or *Tier-2* membership.
+
+## 5. Setting up the shared notebook (the channel)
+
+Before anyone writes anything, the four orgs must agree on the ground rules. That agreement is written in one founding file, **`configtx.yaml`**:
+
+- which orgs are members, and where each one's MSP (stamp list) is;
+- who counts as an admin of each org;
+- who the messenger is;
+- how many orgs must agree to change these rules later (a majority).
+
+A tool turns that file into **page 0 of the notebook**, called the **genesis block**. Every clerk starts from that same page 0, so they all agree on the rules from the start.
+
+## 6. Installing the rulebook (chaincode lifecycle)
+
+The rulebook is code. Before it can be used, **each org must formally agree to it**. Otherwise the Warehouse could install a rulebook that says "warehouse can edit receipts freely".
+
+The four steps, which `scripts/deploy-cc.sh` runs:
+
+1. **Package**: zip up the code.
+2. **Install**: give a copy to each org's clerk.
+3. **Approve**: each org's admin says "we agree to *this exact code* with *this exact 3-of-4 rule*".
+4. **Commit**: once a majority approved the same thing, the rulebook goes live.
+
+## 7. What we've proved so far
+
+**Milestone 1, the notebook works:**
+- each of the four orgs wrote an entry with 3 signatures → accepted;
+- each org read all entries from its *own* clerk → identical copies;
+- the Warehouse tried to write with **only its own signature** → the entry went into page 10 but was **marked invalid** by every clerk, and the value didn't change.
+
+That last one is the heart of WRT's claim: *no single party can rewrite the record, and attempts leave a trace.*
+
+**Milestone 2, ID cards carry WRT roles:**
+- we printed cards for 12 people (2 warehouse operators, 4 farmers, 2 bank officers, 3 inspectors, 1 regulator), each with a `role` and `entityId`;
+- the rulebook could read those from each card, which is what the real chaincode needs to decide "is this person allowed to do this?";
+- the cards were also saved into a **wallet** (`backend/wallet/`), so the backend can act on behalf of each person.
 
 ---
 
-## 3. Identity: how Fabric knows who you are
+# Part 2: See it
 
-This is the part that is easiest to get lost in. Four layers, each building on the one before.
-
-### 3.1 Certificate Authority (CA)
-Each org has its own CA. Everything the org's CA signs belongs to that org. One CA per org matters: if two orgs shared a CA, one could mint identities that pass as the other's.
-
-### 3.2 Certificates and the `OU` field
-When `enroll.sh` registers an identity it gives it a type (`--id.type peer`, `admin` or `client`). The CA writes that type into the certificate's **OU** (Organizational Unit) field:
-
-```
-peer0's cert:   O=Hyperledger, OU=peer,   CN=peer0
-Admin's cert:   O=Hyperledger, OU=admin,  CN=warehouseadmin
-User1's cert:   O=Hyperledger, OU=client, CN=user1
-```
-
-### 3.3 MSP (Membership Service Provider) = a folder
-An MSP is just a folder of certificates that answers "who belongs to this org?":
-
-```
-organizations/peerOrganizations/warehouse.wrt.local/msp/
-  cacerts/      the Warehouse CA's certificate ("trust certs signed by this")
-  tlscacerts/   the CA used for TLS connections
-  config.yaml   the NodeOU rules (below)
-```
-
-Every identity also has its own MSP folder (`peers/peer0…/msp`, `users/Admin@…/msp`) that additionally holds **its own cert and private key** (`signcerts/`, `keystore/`).
-
-### 3.4 `config.yaml` (NodeOUs): turning a cert into a role
-`config.yaml` sits inside each MSP folder and says: *"a cert signed by our CA with OU=peer **is a peer**; OU=admin **is an admin**; OU=client **is a client**."*
-
-Without it, every valid cert is just a generic `member`. Policies like `'WarehouseMSP.peer'` ask for a **peer**, so nothing would ever match.
-
-### `config.yaml` vs `configtx.yaml`: not the same file
-
-| | `config.yaml` | `configtx.yaml` |
-|---|---|---|
-| Where | inside **each MSP folder** (generated by `enroll.sh`) | `network/configtx.yaml` (one file) |
-| Describes | how to read **one org's** certs (NodeOUs) | the **whole channel**: orgs, policies, orderer |
-| Used by | copied into the channel by `configtxgen`; used by the local node | `configtxgen`, once, to build block 0 |
-
-They meet at block 0: `configtx.yaml` points at each org's `MSPDir`, and `configtxgen` copies that folder's CA certs **and** `config.yaml` rules into the genesis block. After that, peers judge signatures using the copy **in the channel**, not the file on disk.
-
-### 3.5 CA vs MSP
-The **CA issues** certificates; the **MSP defines which CAs to trust** and how to read roles. Validation only ever uses the MSP (its copy in the channel config), so the CA can be offline and transactions still validate. The CA is only needed to enroll, re-enroll or revoke.
-
-### 3.6 Certificate attributes: what the chaincode knows about the caller
-On top of the OU role, WRT identities carry two custom **attributes** baked into the certificate by the CA:
-
-```
-{"attrs":{"wrt.role":"farmer","wrt.entityId":"FRM-001", "hf.EnrollmentID":"frm-001-farmer", ...}}
-```
-
-They're registered with the `:ecert` suffix, which means "put this in every enrollment cert". Without `:ecert` the CA stores the attribute but leaves it out of the cert, and the chaincode, which only sees the cert, gets `null`.
-
-The chaincode should trust `wrt.role` **only together with the MSP ID**: the attribute is only as trustworthy as the CA that signed it, and the MSP ID says which CA that was. A Lender-CA cert claiming `wrt.role=farmer` must be rejected. This is why spec §3.4 says check both.
-
----
-
-## 4. The life of a transaction
-
-This is what `test-hello.sh` step 1 does when the Warehouse invokes `Put`:
-
-```
- Client (Warehouse Admin)
-   │ 1. PROPOSE: "run Put(hello-warehouse, ...)"
-   ├──────────────► peer0.warehouse ─┐
-   ├──────────────► peer0.lender    ─┤ 2. ENDORSE: each runs the chaincode on its own
-   ├──────────────► peer0.inspector ─┘    copy of state and signs the result (read/write set).
-   │                                       Nothing is written yet.
-   │ 3. SUBMIT: proposal + 3 signatures
-   └──────────────► orderer ── 4. ORDER: puts the tx in a block (no checking!)
-                       │
-                       ▼ 5. DELIVER the block to all 4 peers
-            each peer: 6. VALIDATE: are there enough of the right signatures
-                          (OutOf 3 of 4 .peer)? Has the data changed since endorsement?
-                       7. COMMIT: append block to ledger; apply VALID txs to CouchDB;
-                          stamp each tx with a validation code.
-```
-
-Two things to remember:
-- **Endorsement ≠ commit.** Endorsing peers only *simulate* and sign. State changes at step 7.
-- **The orderer never judges.** It orders whatever it gets. Each peer checks independently. When four orgs each check, you don't need to trust any one of them.
-
----
-
-## 5. The rules (policies)
-
-| Rule | Where it's set | What it means here |
-|---|---|---|
-| **Chaincode endorsement policy** | `scripts/deploy-cc.sh`: `OutOf(3,'WarehouseMSP.peer','LenderMSP.peer','InspectorMSP.peer','RegulatorMSP.peer')` | Every **write** needs signatures from 3 of the 4 orgs' peers. (Spec §3.2.) |
-| **LifecycleEndorsement** | `configtx.yaml` → `MAJORITY Endorsement` | **Deploying or upgrading** chaincode needs approval from a majority (3 of 4) of orgs. |
-| **Channel Admins** | `configtx.yaml` → `MAJORITY Admins` | Changing the channel itself (adding an org, changing policies) needs a majority of org admins. |
-| **Readers / Writers** per org | `configtx.yaml` → each org's `Policies` | Who may read blocks / submit transactions on behalf of the org. |
-
-The first two both happen to be "3 of 4" but are separate: one controls *who must agree to each transaction*, the other *who must agree to the code itself*.
-
----
-
-## 6. File by file, in the order things happen
-
-`./network.sh up && ./network.sh createChannel && ./network.sh deployCC && ./network.sh registerIdentities`
-
-### `network.sh up`
-1. **`scripts/install-binaries.sh`** downloads the CLI tools (`peer`, `configtxgen`, `osnadmin`, `fabric-ca-client`) into `.fabric/`, at the same versions as the Docker images (Fabric 2.5.16, CA 1.5.17).
-2. **`compose/compose-ca.yaml`** starts the 5 CAs. Each writes its own root cert into `organizations/fabric-ca/<org>/`.
-3. **`scripts/enroll.sh`**, per org:
-   - enrolls the CA's bootstrap admin (needed to register others);
-   - builds the org MSP folder + `config.yaml`;
-   - registers `peer0` (or `orderer`), an org Admin and `User1`;
-   - enrolls each, producing their MSP folders, and a **TLS cert** for the node valid for both `peer0.<org>.wrt.local` and `localhost` (so your host shell can connect too).
-4. **`compose/compose-net.yaml`** starts the orderer, 4 peers and 4 CouchDBs. Key details:
-   - each peer mounts its own `msp/` and `tls/` from `organizations/`;
-   - each peer mounts the **Docker socket**, because it launches chaincode containers itself, attached to `wrt_net`;
-   - each peer listens on the same port inside and outside Docker (7051, 8051, …).
-
-### `network.sh createChannel` → `scripts/channel.sh`
-1. `configtxgen -profile WRTChannel` reads `configtx.yaml` and writes **block 0** to `channel-artifacts/wrt-channel.block`.
-2. `osnadmin channel join` hands block 0 to the orderer through its admin port (7053). Fabric 2.5 has no "system channel"; this is how an orderer joins a channel.
-3. `peer channel join` for each org, signed by that org's Admin. Each peer fetches the chain from the orderer.
-
-**Anchor peers** (in `configtx.yaml`) tell each org's peer how to find the other orgs' peers via **gossip**. Hello doesn't need this, but the `farmerPII` private data in milestone 3 does.
-
-### `network.sh deployCC` → `scripts/deploy-cc.sh`
-The Fabric 2.x chaincode lifecycle:
-
-| Step | Who | What happens |
-|---|---|---|
-| **package** | you | Zips `chaincode/hello/` into `hello_1.0.tar.gz`; its hash becomes the **package ID**. |
-| **install** ×4 | each org's Admin, on its own peer | The peer builds a Docker image for the chaincode (runs `npm install`; slow the first time). |
-| **approve** ×4 | each org's Admin | A transaction saying "my org agrees to: name `hello`, version 1.0, sequence 1, policy OutOf(3…), package X". |
-| **commit** | one org, endorsed by all | Once a majority approved the *identical* definition, it becomes active on the channel. |
-
-If any detail differs between approvals (say a typo in the policy) those orgs approved *different* definitions and commit fails. That's why all orgs share `definition_args` in the script.
-
-To ship changed code later: `./network.sh deployCC -n hello -p chaincode/hello -v 1.1 -s 2`. **Sequence must go up by exactly 1.**
-
-### `network.sh testHello` → `scripts/test-hello.sh`
-The milestone 1 acceptance check:
-1. Each org writes a key, endorsed by itself + the next two orgs (3 of 4). ✓
-2. Each org reads all 4 keys from **its own** peer and gets the same values, proving the copies agree. ✓
-3. **Tamper attempt**: the Warehouse writes with only its own peer's signature. It's ordered into a block, then every peer marks it `ENDORSEMENT_POLICY_FAILURE` and state is unchanged. ✓
-
-### `network.sh registerIdentities` → `scripts/register-identities.sh`
-Reads `identities.conf` (the 12 seed identities from spec §3.4) and for each:
-1. **registers** it with its org's CA as type `client`, with `wrt.role` and `wrt.entityId` as `:ecert` attributes (skipped if already registered, so re-running is safe);
-2. **enrolls** it into `organizations/peerOrganizations/<org>/users/<label>@<org>.wrt.local/msp`;
-3. **exports** it to the backend wallet.
-
-Which CA issues an identity decides which MSP it acts under. Farmers are issued by the **Warehouse** CA: they're Tier-2 hosted members with no node of their own, so they act as `WarehouseMSP` through the Warehouse peer.
-
-| Label (enrollment ID) | MSP | wrt.role | wrt.entityId |
-|---|---|---|---|
-| `wh-001-operator`, `wh-002-operator` | WarehouseMSP | warehouse_operator | WH-001, WH-002 |
-| `frm-001-farmer` … `frm-004-farmer` | WarehouseMSP | farmer | FRM-001 … FRM-004 |
-| `lnd-bank-01-officer`, `lnd-mfi-01-officer` | LenderMSP | lender_officer | LND-BANK-01, LND-MFI-01 |
-| `ins-01-inspector` … `ins-03-inspector` | InspectorMSP | inspector | INS-01 … INS-03 |
-| `reg-01-officer` | RegulatorMSP | regulator_officer | REG-01 |
-
-The org **Admins** from `enroll.sh` have no `wrt.*` attributes: they administer nodes (join channels, approve chaincode), they don't do business.
-
-**Wallet** (`backend/wallet/`, git-ignored, deleted by `down`). The Gateway SDK has no wallet object: it needs a cert, a private key and where the identity's org peer is.
-
-```
-backend/wallet/
-  index.json               {identities: [{label, mspId, role, entityId}],
-                            orgs: {<MspId>: {peerEndpoint, peerHostAlias, tlsCACert}}}
-  tls/<org>-ca.crt         TLS CA to verify each org's peer
-  <label>/cert.pem         identity cert (the attributes are inside it)
-  <label>/key.pem          its private key
-```
-
-`peerHostAlias` exists because the backend connects to `localhost:8051` but the peer's TLS cert is issued for `peer0.lender.wrt.local`; the alias tells gRPC which name to check the cert against.
-
-### `network.sh testIdentities` → `scripts/test-identities.sh`
-Milestone 2 acceptance: calls `WhoAmI` **as each identity** and checks the chaincode sees the right MSP, role and entity ID; checks Admins have no role; checks each wallet key matches its cert.
-
-### `scripts/env.sh`
-Not a step; a helper the others `source`. `set_org lender` sets the four variables that make the `peer` CLI act as the Lender Admin against the Lender peer. A second argument picks another identity. Use it yourself:
+Run these from `network/` and look at the output. Each one matches a section above.
 
 ```bash
+# Everything that's running: 4 clerks (peer0.*), their notebooks' front page (couchdb.*),
+# the messenger (orderer), and 5 ID offices (ca.*).
+docker ps --format 'table {{.Names}}\t{{.Status}}'
+
+# §7: replay the milestone tests.
+./network.sh testHello
+./network.sh testIdentities
+
+# §4: read a farmer's ID card. Look for "wrt.role" and "wrt.entityId".
+openssl x509 -in ../backend/wallet/frm-001-farmer/cert.pem -noout -text | grep wrt
+
+# §4: ask the rulebook "who am I?" as different people.
 source scripts/env.sh
-set_org inspector                       # as Admin@inspector.wrt.local
-set_org warehouse frm-002-farmer        # as farmer FRM-002
+set_org warehouse frm-001-farmer
 peer chaincode query -C wrt-channel -n hello -c '{"function":"WhoAmI","Args":[]}'
+set_org lender lnd-bank-01-officer
+peer chaincode query -C wrt-channel -n hello -c '{"function":"WhoAmI","Args":[]}'
+
+# §2: open one clerk's "front page" in a browser (login admin / adminpw),
+# then open the database wrt-channel_hello:
+#   Warehouse http://localhost:5984/_utils   Lender http://localhost:6984/_utils
+#   Inspector http://localhost:7984/_utils   Regulator http://localhost:8984/_utils
+# All four show the same keys, stored separately.
+
+# §2: stop two clerks. Writes now fail (can't get 3 signatures). Reads still work.
+docker stop peer0.inspector.wrt.local peer0.regulator.wrt.local
+./network.sh testHello          # step 1 fails
+docker start peer0.inspector.wrt.local peer0.regulator.wrt.local
 ```
 
-### `network.sh down`
-Removes all containers, the peers' and orderer's data volumes, the `dev-peer0…` chaincode containers and images, and all generated certs. The next `up` starts from nothing.
-
----
-
-## 7. Proving the tamper attempt is on the ledger
-
-A rejected transaction is **not thrown away**. It's in a block, marked invalid. Find it yourself:
+Starting from nothing, the whole network is built with:
 
 ```bash
-source scripts/env.sh && set_org regulator
-peer channel getinfo -c wrt-channel                      # current height
-peer channel fetch <N> blk.block -c wrt-channel          # fetch block N FROM THE PEER
-configtxlator proto_decode --type common.Block --input blk.block \
-  | jq -r '.metadata.metadata[2]' | base64 -d | od -An -tu1
-# → 10   (= ENDORSEMENT_POLICY_FAILURE in Fabric's TxValidationCode enum)
+./network.sh up                  # start ID offices, print cards for clerks + admins, start clerks/messenger
+./network.sh createChannel       # write page 0 from configtx.yaml, every clerk joins
+./network.sh deployCC            # install + approve + commit the hello rulebook
+./network.sh registerIdentities  # print the 12 WRT ID cards, fill backend/wallet
+./network.sh down                # throw everything away
 ```
-
-Two lessons hide in that command:
-- Fetch **from the peer**, not the orderer (`-o`). The orderer's copy has an empty validation flag, because the orderer never validates.
-- `GetHistoryForKey` (what the chaincode will use for receipt history) only returns **valid** writes. So showing rejected attempts in the regulator's Explorer (scenario S6) means reading **blocks**, not key history.
 
 ---
 
-## 8. When something breaks
+# Part 3: Reference
 
-| Symptom | Likely cause | Look at |
+## Files
+
+| File | Story term | What it does |
 |---|---|---|
-| `creator org unknown` / signature errors | `CORE_PEER_LOCALMSPID` and `CORE_PEER_MSPCONFIGPATH` point at different orgs | use `set_org`, don't set vars by hand |
-| Every tx `ENDORSEMENT_POLICY_FAILURE` | fewer than 3 `--peerAddresses`, or NodeOUs missing | the invoke flags; `msp/config.yaml` |
-| Invoke hangs then times out after a fresh install | chaincode container can't reach the peer | `docker logs dev-peer0…`; `CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE` |
-| `chaincode definition not agreed to by this org` | approvals differ (version, sequence, policy) | `peer lifecycle chaincode checkcommitreadiness` |
-| Peer exits on start after a rebuild | old volumes with new certs | `./network.sh down` (removes volumes) |
-| CouchDB "connection refused" warnings at start | harmless: peer started before CouchDB | ignore if the peer stays up |
+| `network.sh` | | The one command you run. Calls the scripts below. |
+| `compose/compose-ca.yaml` | ID offices | Starts the 5 CAs (4 orgs + the orderer's org). |
+| `compose/compose-net.yaml` | clerks, messenger | Starts the orderer, 4 peers and 4 CouchDBs. |
+| `scripts/enroll.sh` | printing cards for staff | Cards for each peer, each org admin, and a test user. Also builds each org's MSP folder. |
+| `configtx.yaml` | founding agreement | Members, admin rules, orderer, majority rules. Becomes block 0. |
+| `scripts/channel.sh` | page 0 | Builds block 0; the orderer and all 4 peers join `wrt-channel`. |
+| `scripts/deploy-cc.sh` | installing the rulebook | Package → install ×4 → approve ×4 → commit, with the 3-of-4 rule. |
+| `chaincode/hello/` | a practice rulebook | `Put`, `Get`, `WhoAmI`. Replaced by the real WRT chaincode in milestone 3. |
+| `identities.conf` | list of people to print cards for | The 12 seed identities: entityId, role, issuing org. |
+| `scripts/register-identities.sh` | printing WRT cards | Registers + enrolls each identity with `wrt.role`/`wrt.entityId`; writes `backend/wallet/`. |
+| `scripts/test-hello.sh` | | Milestone 1 check. |
+| `scripts/test-identities.sh` | | Milestone 2 check. |
+| `scripts/env.sh` | | Helper: `set_org <org> [identity]` makes your terminal act as that person. |
+| `scripts/install-binaries.sh` | | Downloads the Fabric command-line tools into `.fabric/`. |
 
-Useful commands:
+Generated and git-ignored: `organizations/` (all cards and keys), `channel-artifacts/` (block 0, chaincode packages), `.fabric/` (tools), `../backend/wallet/`.
 
-```bash
-docker ps --format 'table {{.Names}}\t{{.Status}}'      # what's running
-docker logs -f peer0.lender.wrt.local                   # a peer's log
-docker stop peer0.inspector.wrt.local peer0.regulator.wrt.local  # try writing now: it fails
-```
+## Details worth knowing later
 
-Browse each org's world state in CouchDB's UI at `http://localhost:<port>/_utils` (login `admin` / `adminpw`) and open the `wrt-channel_hello` database.
+- **`config.yaml` vs `configtx.yaml`.** Different files. `config.yaml` sits inside each MSP folder and says how to read the "Job" field on a card (`OU=peer` means peer, and so on; Fabric calls this **NodeOUs**). `configtx.yaml` is the founding agreement. When block 0 is made, each org's `config.yaml` rules are copied into it.
+- **`:ecert`.** When registering a card, `wrt.role=farmer:ecert` means "print this on the card". Without `:ecert`, the office remembers it but doesn't print it, so the rulebook sees `null`.
+- **Anchor peers** (in `configtx.yaml`) let clerks from different orgs find each other directly. Needed in milestone 3 for private farmer data.
+- **Fetching a block from the orderer vs a peer.** Only a peer's copy says which transactions were valid. The orderer never judges.
+- **Key history only shows valid writes.** To show rejected attempts (scenario S6), the app must read blocks.
+- **Wallet format**: `backend/wallet/index.json` lists each identity (`label`, `mspId`, `role`, `entityId`) and each org's peer address. `<label>/cert.pem` and `<label>/key.pem` are the card and its private key.
+- **Changing chaincode later**: `./network.sh deployCC -n hello -p chaincode/hello -v 1.1 -s 2`. The sequence number must go up by exactly 1.
 
----
+## Ports
 
-## 9. Ports
+| Org | Peer | CA | CouchDB (browser) |
+|---|---|---|---|
+| Warehouse | 7051 | 7054 | 5984 |
+| Lender | 8051 | 8054 | 6984 |
+| Inspector | 9051 | 9054 | 7984 |
+| Regulator | 10051 | 10054 | 8984 |
+| Orderer | 7050 (admin 7053) | 11054 | none |
 
-| Org | Peer | CA | CouchDB | Peer metrics |
-|---|---|---|---|---|
-| Warehouse | 7051 | 7054 | 5984 | 9444 |
-| Lender | 8051 | 8054 | 6984 | 9445 |
-| Inspector | 9051 | 9054 | 7984 | 9446 |
-| Regulator | 10051 | 10054 | 8984 | 9447 |
-| Orderer | 7050 (admin 7053) | 11054 | none | 9443 |
+## When something breaks
 
----
-
-## 10. Glossary
-
-| Term | Meaning |
+| You see | Usually means |
 |---|---|
-| **Org** | A member of the consortium with its own CA, MSP and peer. |
-| **MSP** | Folder of certs defining who belongs to an org, and with which role. |
-| **NodeOUs** | Rules in `config.yaml` mapping a cert's OU field to a role (peer/admin/client/orderer). |
-| **Endorse** | A peer runs the chaincode and signs the result. No state changes yet. |
-| **Endorsement policy** | How many and which orgs must endorse a write. Here: 3 of 4. |
-| **Orderer / Raft** | Orders txs into blocks. Raft is its consensus protocol; we run 1 node (PoC). |
-| **Channel** | A private ledger shared by its member orgs. Ours: `wrt-channel`. |
-| **Genesis block** | Block 0: the channel's initial config, built from `configtx.yaml`. |
-| **World state** | Latest value of each key, in CouchDB. Derived from valid txs. |
-| **Anchor peer** | The peer other orgs contact first to discover an org's peers via gossip. |
-| **Chaincode lifecycle** | package → install → approve → commit. |
-| **Package ID / label / sequence** | Hash of the code package / its name / the definition's version counter. |
-| **Attribute** | Custom key=value inside a cert (e.g. `wrt.role`), set by the CA at registration. |
-| **Wallet** | Folder of identity cert + key files the backend signs with. |
-| **Validation code** | Per-tx verdict a peer stamps on each block (`VALID`, `ENDORSEMENT_POLICY_FAILURE`, …). |
+| `ENDORSEMENT_POLICY_FAILURE` | fewer than 3 orgs signed, or the card's Job field wasn't recognised |
+| `creator org unknown` / signature errors | your terminal mixes one org's name with another org's card. Use `set_org` |
+| an invoke hangs right after installing chaincode | the chaincode container can't reach its peer. Check `docker logs dev-peer0…` |
+| `chaincode definition not agreed to by this org` | the orgs approved slightly different settings |
+| a peer stops right after starting | old data with new cards. Run `./network.sh down`, then build again |
+| "connection refused" warnings about CouchDB at start | harmless; the peer started a second before its database |
+
+## Glossary
+
+| Term | Plain meaning |
+|---|---|
+| Org | One of the four parties. |
+| Peer | An org's computer that keeps the ledger and checks/signs requests. |
+| Ledger / block | The full history / one page of it. |
+| World state | Current value of everything (CouchDB). |
+| Chaincode | The rulebook code. |
+| Endorse / endorsement policy | A peer signing a request / how many must sign (3 of 4). |
+| Orderer | Puts requests in order into blocks. Doesn't check them. |
+| Channel | The shared ledger (`wrt-channel`). |
+| Genesis block | Block 0, made from `configtx.yaml`. |
+| CA | Office that issues ID cards (certificates). |
+| MSP | The list used to check an org's cards and read their roles. |
+| Certificate / attribute | ID card / an extra field on it (`wrt.role`, `wrt.entityId`). |
+| Wallet | Folder of cards and keys the backend uses to act as people. |
