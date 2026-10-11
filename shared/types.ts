@@ -579,6 +579,7 @@ export const ERROR_CODES = [
   'LTV_EXCEEDED',
   'ENDORSEMENT_POLICY_FAILURE',
   'NOT_FOUND',
+  'ALREADY_EXISTS',
   'INVALID_ARGUMENT',
 ] as const;
 export type ErrorCode = (typeof ERROR_CODES)[number];
