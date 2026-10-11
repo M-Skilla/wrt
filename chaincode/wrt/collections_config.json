@@ -1,0 +1,14 @@
+[
+  {
+    "name": "farmerPII",
+    "policy": "OR('WarehouseMSP.member','LenderMSP.member','RegulatorMSP.member')",
+    "requiredPeerCount": 0,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "endorsementPolicy": {
+      "signaturePolicy": "OutOf(2,'WarehouseMSP.peer','LenderMSP.peer','RegulatorMSP.peer')"
+    }
+  }
+]

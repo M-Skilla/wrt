@@ -3,7 +3,7 @@
 #
 #   ./network.sh up                  start CAs, enroll identities, start orderer/peers/CouchDB
 #   ./network.sh createChannel       create wrt-channel and join all four peers
-#   ./network.sh deployCC [flags]    deploy chaincode (default: the milestone-1 hello chaincode)
+#   ./network.sh deployCC [flags]    build and deploy chaincode/wrt (or: -n hello -p chaincode/hello)
 #                                    flags: -n name -p path -v version -s sequence -c collections.json
 #   ./network.sh testHello           milestone-1 acceptance check
 #   ./network.sh registerIdentities  register seed identities (identities.conf) and write backend/wallet
@@ -55,7 +55,9 @@ network_down() {
 
 deploy_cc() {
   if [[ $# -eq 0 ]]; then
-    set -- -n hello -p "$NETWORK_DIR/chaincode/hello"
+    local stage
+    stage=$("$SCRIPTS/build-cc.sh")
+    set -- -n wrt -p "$stage" -c "$NETWORK_DIR/../chaincode/wrt/collections_config.json"
   fi
   "$SCRIPTS/deploy-cc.sh" "$@"
 }

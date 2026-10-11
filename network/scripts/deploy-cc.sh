@@ -2,11 +2,12 @@
 # Fabric 2.x chaincode lifecycle: package -> install x4 -> approve x4 -> commit.
 #
 # Usage: deploy-cc.sh -n <name> -p <path> [-v <version>] [-s <sequence>] [-c <collections.json>]
-#   Re-deploying changed code: bump both -v and -s (sequence must increase by 1).
+#   Without -s, the sequence is the committed one + 1 (1 on first deploy), so
+#   re-running after a code change upgrades the chaincode.
 set -euo pipefail
 source "$(dirname "$0")/env.sh"
 
-CC_NAME="" CC_PATH="" CC_VERSION="1.0" CC_SEQUENCE="1" CC_COLLECTIONS=""
+CC_NAME="" CC_PATH="" CC_VERSION="" CC_SEQUENCE="" CC_COLLECTIONS=""
 while getopts "n:p:v:s:c:" opt; do
   case $opt in
     n) CC_NAME=$OPTARG ;;
@@ -18,6 +19,13 @@ while getopts "n:p:v:s:c:" opt; do
   esac
 done
 [[ -n $CC_NAME && -n $CC_PATH ]] || { echo "-n and -p are required" >&2; exit 1; }
+
+if [[ -z $CC_SEQUENCE ]]; then
+  set_org warehouse
+  committed=$(peer lifecycle chaincode querycommitted --channelID "$CHANNEL_NAME" --name "$CC_NAME" --output json 2>/dev/null | jq -r '.sequence // 0' || echo 0)
+  CC_SEQUENCE=$((committed + 1))
+fi
+CC_VERSION=${CC_VERSION:-"1.$CC_SEQUENCE"}
 
 # Spec §3.2: any 3 of the 4 org peers must endorse. No single org, including
 # the warehouse holding the crop, can change state alone.
