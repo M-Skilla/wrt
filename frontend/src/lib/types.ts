@@ -54,7 +54,7 @@ export interface DisputeView {
   loan: Loan | null;
 }
 
-export interface HistoryRow<T = Record<string, unknown>> {
+export interface HistoryRow<T = object> {
   version: number | null;
   txId: string;
   timestamp: string;

@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { createContext, createElement, useContext, useEffect, useState, type ReactNode } from 'react';
 import type { StreamEvent } from './types';
 
 /**
@@ -28,4 +28,16 @@ export function useLedgerStream(): { live: boolean } {
     };
   }, [qc]);
   return { live };
+}
+
+const LiveCtx = createContext(false);
+
+/** Opens the one SSE connection for the app and shares its live/reconnecting state. */
+export function LedgerStreamProvider({ children }: { children: ReactNode }) {
+  const { live } = useLedgerStream();
+  return createElement(LiveCtx.Provider, { value: live }, children);
+}
+
+export function useStreamLive(): { live: boolean } {
+  return { live: useContext(LiveCtx) };
 }

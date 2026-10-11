@@ -11,3 +11,5 @@ network/.fabric/
 network/channel-artifacts/
 backend/wallet/
 backend/uploads/
+frontend/dist/
+backend/.with-backend.log
