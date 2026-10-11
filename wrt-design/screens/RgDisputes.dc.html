@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dispute arbitration · WRT</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F2F6FA}
+a{color:#00739F}a:hover{color:#0B1726}
+.m{font-family:'Geist Mono',ui-monospace,monospace}
+.pd{display:inline-block;width:6px;height:6px;border-radius:50%;background:#00BDFF;margin-right:5px;vertical-align:1px}
+.nav a{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:40px;padding:0 12px;border-radius:4px;color:#B8C7D6;text-decoration:none;font-size:14px;font-weight:500}
+.nav a:hover{background:#13253A;color:#FFFFFF}
+.nav a.on{background:#16304A;color:#FFFFFF;box-shadow:inset 3px 0 0 #FBD116}
+.nav .n{font-family:'Geist Mono',monospace;font-size:11px;color:#7F96AC}
+.lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4E6275}
+.card{background:#FFFFFF;border:1px solid #D9E3EC;border-radius:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 8px;border-radius:4px;font-size:12px;font-weight:600;color:#0B1726;background:#EEF3F8;white-space:nowrap}
+.dot{width:7px;height:7px;border-radius:50%;flex:none;background:#8A9BAD}
+.cy{background:#FEF6CC}.cy .dot{background:#FBD116;box-shadow:0 0 0 1px #0B1726}
+.cr{background:#FDE7E8}.cr .dot{background:#E5484D}
+.cp{background:#E3F0F8}.cp .dot{background:#56A7D2}
+.cg{background:#E2F5EA}.cg .dot{background:#12A150}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:36px;padding:0 14px;border-radius:6px;border:1px solid #0B1726;background:#0B1726;color:#FFFFFF;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn:hover{color:#FFFFFF;background:#1B3049}
+.btn.y{background:#FBD116;border-color:#FBD116;color:#0B1726}
+.btn.y:hover{background:#F0C400;color:#0B1726}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#4E6275;padding:10px 14px;border-bottom:1px solid #D9E3EC;background:#F7FAFC;white-space:nowrap}
+td{padding:12px 14px;border-bottom:1px solid #EAF0F5;vertical-align:middle;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.r{text-align:right}
+.tw{overflow-x:auto}
+.k{display:flex;flex-direction:column;gap:4px;padding:14px 16px;border-right:1px solid #D9E3EC;flex:1 1 150px}
+.k:last-child{border-right:0}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;font-family:'Plus Jakarta Sans',sans-serif;color:#0B1726;background:#F2F6FA">
+<header style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;padding:10px 20px;background:#0B1726;color:#FFFFFF;border-bottom:1px solid #1E3349">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px">
+<a href="Main.dc.html" style="display:flex;align-items:center;gap:10px;color:#FFFFFF;text-decoration:none;font-weight:800;font-size:17px"><span style="width:24px;height:24px;border-radius:5px;background:#FBD116;display:grid;place-items:center"><span style="width:9px;height:11px;border:2px solid #0B1726;border-radius:2px"></span></span>WRT</a>
+<div class="m" style="display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12px;color:#8FA6BC"><span>wrt-channel</span><span>block 48,213</span><span>policy 3 of 4</span><span><span class="pd"></span>WH <span class="pd" style="margin-left:6px"></span>LN <span class="pd" style="margin-left:6px"></span>IN <span class="pd" style="margin-left:6px"></span>RG</span></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-size:13px"><span class="m" style="padding:3px 8px;border:1px solid #2A4058;border-radius:4px;color:#00BDFF;font-size:12px">RegulatorMSP</span><span style="color:#B8C7D6">regulator_officer</span><span class="m" style="font-size:12px">REG-01</span><a href="Main.dc.html" style="color:#FBD116;font-weight:600;text-decoration:none">Switch identity</a></div>
+</header>
+<div style="display:flex;flex-wrap:wrap;flex:1">
+<nav class="nav" aria-label="Regulator" style="flex:1 1 220px;box-sizing:border-box;background:#0B1726;padding:16px 12px;display:flex;flex-direction:column;gap:2px">
+<div class="lbl" style="color:#7F96AC;padding:8px 12px 10px">Regulator</div>
+<a href="RgOverview.dc.html">Network overview</a>
+<a href="RgRegistry.dc.html">Entity registry</a>
+<a href="RgWrrb.dc.html">WRRB queue<span class="n">4</span></a>
+<a href="RgDisputes.dc.html" class="on">Arbitration<span class="n">3</span></a>
+<a href="RgSettings.dc.html">Prices &amp; policy</a>
+<a href="RgExplorer.dc.html">Ledger explorer</a>
+<div style="margin-top:auto;padding:16px 12px 4px;font-size:12px;color:#7F96AC;line-height:1.6">Grace Mwakyusa<br><span class="m">peer0.regulator · full node</span></div>
+</nav>
+<main style="flex:999 1 560px;min-width:0;box-sizing:border-box;padding:28px 32px 48px;display:flex;flex-direction:column;gap:20px">
+<div><div class="lbl">Regulator</div><h1 style="margin:6px 0 0;font-size:28px;font-weight:800;letter-spacing:-.02em">Dispute arbitration</h1></div>
+<section class="card" style="display:flex;flex-wrap:wrap;overflow:hidden">
+<div class="k"><span class="lbl">Open</span><span class="m" style="font-size:22px;font-weight:600">1</span><span style="font-size:12px;color:#4E6275">needs re-inspector</span></div>
+<div class="k"><span class="lbl">Re-inspection assigned</span><span class="m" style="font-size:22px;font-weight:600">1</span><span style="font-size:12px;color:#4E6275">with inspector</span></div>
+<div class="k" style="background:#FEF6CC"><span class="lbl" style="color:#0B1726">Ready to rule</span><span class="m" style="font-size:22px;font-weight:600">1</span><span style="font-size:12px">re-inspected</span></div>
+<div class="k"><span class="lbl">Resolved this quarter</span><span class="m" style="font-size:22px;font-weight:600">9</span><span style="font-size:12px;color:#4E6275">1 fraudulent</span></div>
+</section>
+<section class="card" style="overflow:hidden">
+<div class="tw"><table>
+<thead><tr><th>Dispute</th><th>Type</th><th>Subject</th><th>Raised by</th><th>Frozen</th><th>Original</th><th>Re-inspector</th><th>Status</th><th></th></tr></thead>
+<tbody>
+<tr style="background:#FFFCEB"><td class="m"><a href="DisputeDetail.dc.html">DSP-0017</a></td><td class="m">MINT_ACCURACY</td><td class="m">WH001-000119</td><td class="m">LND-MFI-01</td><td class="m">4 d</td><td class="m">INS-02</td><td class="m">INS-01</td><td><span class="chip cy"><span class="dot"></span>Reinspected</span></td><td class="r"><a class="btn y" href="DisputeDetail.dc.html">Rule</a></td></tr>
+<tr><td class="m">DSP-0018</td><td class="m">MINT_MISMATCH</td><td class="m">DEP-WH001-0129</td><td class="m">chaincode · auto</td><td class="m">no receipt</td><td class="m">INS-02</td><td style="color:#4E6275">—</td><td><span class="chip cr"><span class="dot"></span>Open</span></td><td class="r"><a class="btn" href="ModalsB.dc.html">Assign re-inspection</a></td></tr>
+<tr><td class="m">DSP-0019</td><td class="m">QUALITY_DEGRADATION</td><td class="m">WH002-000028</td><td class="m">LND-BANK-01</td><td class="m">1 d</td><td class="m">INS-02 QC</td><td class="m">INS-03*</td><td><span class="chip cp"><span class="dot"></span>Assigned</span></td><td class="r" style="color:#4E6275;font-size:12px">waiting</td></tr>
+<tr><td class="m">DSP-0012</td><td class="m">MINT_MISMATCH</td><td class="m">DEP-WH002-0037</td><td class="m">chaincode · auto</td><td class="m">—</td><td class="m">INS-03</td><td class="m">INS-02</td><td><span class="chip cg"><span class="dot"></span>Corrected</span></td><td class="r" style="color:#4E6275;font-size:12px">19 Sep</td></tr>
+</tbody></table></div>
+<div style="padding:10px 16px;border-top:1px solid #D9E3EC;font-size:12px;color:#4E6275">* The draw excludes the inspector whose reading is disputed and any inspector with a declared conflict.</div>
+</section>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":950}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

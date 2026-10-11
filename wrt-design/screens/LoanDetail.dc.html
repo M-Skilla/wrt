@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Loan LN-0042 · WRT</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F2F6FA}
+a{color:#00739F}a:hover{color:#0B1726}
+.m{font-family:'Geist Mono',ui-monospace,monospace}
+.pd{display:inline-block;width:6px;height:6px;border-radius:50%;background:#00BDFF;margin-right:5px;vertical-align:1px}
+.nav a{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:40px;padding:0 12px;border-radius:4px;color:#B8C7D6;text-decoration:none;font-size:14px;font-weight:500}
+.nav a:hover{background:#13253A;color:#FFFFFF}
+.nav a.on{background:#16304A;color:#FFFFFF;box-shadow:inset 3px 0 0 #FBD116}
+.nav .n{font-family:'Geist Mono',monospace;font-size:11px;color:#7F96AC}
+.lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4E6275}
+.card{background:#FFFFFF;border:1px solid #D9E3EC;border-radius:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 8px;border-radius:4px;font-size:12px;font-weight:600;color:#0B1726;background:#EEF3F8;white-space:nowrap}
+.dot{width:7px;height:7px;border-radius:50%;flex:none;background:#8A9BAD}
+.ci{background:#E0F6FF}.ci .dot{background:#00BDFF}
+.cp{background:#E3F0F8}.cp .dot{background:#56A7D2}
+.cy{background:#FEF6CC}.cy .dot{background:#FBD116;box-shadow:0 0 0 1px #0B1726}
+.cr{background:#FDE7E8}.cr .dot{background:#E5484D}
+.cg{background:#E2F5EA}.cg .dot{background:#12A150}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border-radius:6px;border:1px solid #0B1726;background:#0B1726;color:#FFFFFF;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn:hover{color:#FFFFFF;background:#1B3049}
+.btn.s{background:#FFFFFF;color:#0B1726;border-color:#C9D6E2}
+.btn.s:hover{background:#F2F6FA;color:#0B1726}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#4E6275;padding:10px 14px;border-bottom:1px solid #D9E3EC;background:#F7FAFC;white-space:nowrap}
+td{padding:12px 14px;border-bottom:1px solid #EAF0F5;vertical-align:middle}
+tr:last-child td{border-bottom:0}
+.r{text-align:right}
+.tw{overflow-x:auto}
+.ck{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #EAF0F5;font-size:13px}
+.ck:last-child{border-bottom:0}
+.ok{width:22px;height:22px;border-radius:4px;background:#E2F5EA;display:grid;place-items:center}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;font-family:'Plus Jakarta Sans',sans-serif;color:#0B1726;background:#F2F6FA">
+<header style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;padding:10px 20px;background:#0B1726;color:#FFFFFF;border-bottom:1px solid #1E3349">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px">
+<a href="Main.dc.html" style="display:flex;align-items:center;gap:10px;color:#FFFFFF;text-decoration:none;font-weight:800;font-size:17px"><span style="width:24px;height:24px;border-radius:5px;background:#FBD116;display:grid;place-items:center"><span style="width:9px;height:11px;border:2px solid #0B1726;border-radius:2px"></span></span>WRT</a>
+<div class="m" style="display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12px;color:#8FA6BC"><span>wrt-channel</span><span>block 48,213</span><span>policy 3 of 4</span><span><span class="pd"></span>WH <span class="pd" style="margin-left:6px"></span>LN <span class="pd" style="margin-left:6px"></span>IN <span class="pd" style="margin-left:6px"></span>RG</span></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-size:13px"><span class="m" style="padding:3px 8px;border:1px solid #2A4058;border-radius:4px;color:#00BDFF;font-size:12px">LenderMSP</span><span style="color:#B8C7D6">lender_officer</span><span class="m" style="font-size:12px">LND-MFI-01</span><a href="Main.dc.html" style="color:#FBD116;font-weight:600;text-decoration:none">Switch identity</a></div>
+</header>
+<div style="display:flex;flex-wrap:wrap;flex:1">
+<nav class="nav" aria-label="Lender" style="flex:1 1 220px;box-sizing:border-box;background:#0B1726;padding:16px 12px;display:flex;flex-direction:column;gap:2px">
+<div class="lbl" style="color:#7F96AC;padding:8px 12px 10px">Lender</div>
+<a href="LnPortfolio.dc.html">Portfolio</a>
+<a href="LnCollateral.dc.html">Eligible collateral<span class="n">5</span></a>
+<a href="LnLoans.dc.html" class="on">My loans<span class="n">6</span></a>
+<a href="LnDisputes.dc.html">Disputes raised<span class="n">1</span></a>
+<div style="margin-top:auto;padding:16px 12px 4px;font-size:12px;color:#7F96AC;line-height:1.6">Uhuru Rural MFI<br><span class="m">hosted identity · no peer</span></div>
+</nav>
+<main style="flex:999 1 560px;min-width:0;box-sizing:border-box;padding:28px 32px 48px;display:flex;flex-direction:column;gap:20px">
+<div class="m" style="font-size:12px;color:#4E6275"><a href="LnLoans.dc.html">My loans</a> / LN-0042</div>
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:16px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;gap:8px;flex-wrap:wrap"><span class="chip ci"><span class="dot"></span>Active</span><span class="chip m" style="font-size:11px">flat 9.00% · 120 days</span></div>
+<h1 class="m" style="margin:0;font-size:30px;font-weight:600;letter-spacing:-.02em">LN-0042</h1>
+<div style="font-size:14px;color:#4E6275">Neema Mollel · secured by <a class="m" href="ReceiptDetail.dc.html">WRT-WH001-000123</a> (Maize G1, 12,400 kg)</div>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:8px"><a class="btn s" href="ModalsB.dc.html">Request quality check</a><a class="btn s" href="ModalsB.dc.html">Raise dispute</a><button class="btn s" disabled="disabled" title="Available only when the loan is DEFAULTED">Execute liquidation</button></div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px">
+<div class="card" style="padding:16px;display:flex;flex-direction:column;gap:6px"><span class="lbl">Principal</span><span class="m" style="font-size:24px;font-weight:600">6,000,000</span><span style="font-size:12px;color:#4E6275">TZS disbursed 02 Sep</span></div>
+<div class="card" style="padding:16px;display:flex;flex-direction:column;gap:6px"><span class="lbl">Total due</span><span class="m" style="font-size:24px;font-weight:600">6,540,000</span><span style="font-size:12px;color:#4E6275">principal + 540,000 interest</span></div>
+<div class="card" style="padding:16px;display:flex;flex-direction:column;gap:8px"><span class="lbl">Repaid</span><span class="m" style="font-size:24px;font-weight:600">2,000,000</span><div style="height:6px;border-radius:3px;background:#EAF0F5"><div style="width:30.6%;height:6px;border-radius:3px;background:#56A7D2"></div></div><span style="font-size:12px;color:#4E6275">30.6% · held in escrow</span></div>
+<div class="card" style="padding:16px;display:flex;flex-direction:column;gap:6px;background:#FBD116;border-color:#FBD116"><span class="lbl" style="color:#0B1726">Maturity</span><span class="m" style="font-size:24px;font-weight:600">81 days</span><span class="m" style="font-size:12px">31 Dec 2026 · +14 d grace</span></div>
+</div>
+
+<section class="card" style="padding:18px 20px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px"><h2 style="margin:0;font-size:15px;font-weight:700">Loan-to-value</h2><span class="m" style="font-size:12px;color:#4E6275">outstanding 4,540,000 ÷ collateral 10,540,000</span></div>
+<div style="display:flex;align-items:baseline;gap:10px"><span class="m" style="font-size:36px;font-weight:600">43.1%</span><span class="chip cg"><span class="dot"></span>Healthy</span></div>
+<div style="position:relative;height:40px">
+<div style="position:absolute;left:0;right:0;top:10px;height:12px;border-radius:3px;background:linear-gradient(90deg,#E0F6FF 0 60%,#E3F0F8 60% 75%,#FEF6CC 75% 85%,#FDE7E8 85% 100%)"></div>
+<div style="position:absolute;left:0;top:10px;height:12px;width:43.1%;border-radius:3px 0 0 3px;background:#0B1726"></div>
+<div style="position:absolute;left:60%;top:4px;width:2px;height:24px;background:#56A7D2"></div>
+<div style="position:absolute;left:75%;top:4px;width:2px;height:24px;background:#0B1726"></div>
+<div style="position:absolute;left:85%;top:4px;width:2px;height:24px;background:#E5484D"></div>
+<span class="m" style="position:absolute;left:60%;top:28px;font-size:11px;color:#4E6275;transform:translateX(-50%)">60 max</span>
+<span class="m" style="position:absolute;left:75%;top:28px;font-size:11px;color:#4E6275;transform:translateX(-50%)">75 margin</span>
+<span class="m" style="position:absolute;left:85%;top:28px;font-size:11px;color:#4E6275;transform:translateX(-50%)">85 default</span>
+</div>
+</section>
+
+<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start">
+<section class="card" style="flex:1 1 380px;min-width:0;padding:18px 20px;display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><h2 style="margin:0;font-size:15px;font-weight:700">Disbursement conditions</h2><span class="chip cg"><span class="dot"></span>6 of 6 passed</span></div>
+<p style="margin:0 0 4px;font-size:12px;color:#4E6275">Evaluated by chaincode at <span class="m">FundEscrow</span>, 02 Sep 2026 14:02. All passed, so funds released to the farmer in the same transaction.</p>
+<div class="ck"><span class="ok"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#12A150" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span><span>Escrow balance ≥ principal</span><span class="m" style="font-size:12px;color:#4E6275">6.0M ≥ 6.0M</span></div>
+<div class="ck"><span class="ok"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#12A150" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span><span>Receipt pledged, lien on this loan</span><span class="m" style="font-size:12px;color:#4E6275">LN-0042</span></div>
+<div class="ck"><span class="ok"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#12A150" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span><span>WRRB registered and not expired</span><span class="m" style="font-size:12px;color:#4E6275">to 26 Feb 27</span></div>
+<div class="ck"><span class="ok"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#12A150" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span><span>Attestation within 7 days</span><span class="m" style="font-size:12px;color:#4E6275">3 d old</span></div>
+<div class="ck"><span class="ok"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#12A150" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span><span>Warehouse active</span><span class="m" style="font-size:12px;color:#4E6275">WH-001</span></div>
+<div class="ck"><span class="ok"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#12A150" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span><span>No open dispute on receipt</span><span class="m" style="font-size:12px;color:#4E6275">0 open</span></div>
+</section>
+<section class="card" style="flex:1 1 300px;min-width:0;padding:18px 20px;display:flex;flex-direction:column;gap:12px">
+<h2 style="margin:0;font-size:15px;font-weight:700">Timeline</h2>
+<ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;font-size:13px">
+<li style="display:flex;gap:12px"><span class="m" style="width:62px;flex:none;color:#4E6275;font-size:12px">28 Aug</span><span>Offered by LND-MFI-01 at 56.9% LTV</span></li>
+<li style="display:flex;gap:12px"><span class="m" style="width:62px;flex:none;color:#4E6275;font-size:12px">01 Sep</span><span>Accepted by farmer · lien placed</span></li>
+<li style="display:flex;gap:12px"><span class="m" style="width:62px;flex:none;color:#4E6275;font-size:12px">02 Sep</span><span>Escrow funded · auto-disbursed to farmer</span></li>
+<li style="display:flex;gap:12px"><span class="m" style="width:62px;flex:none;color:#4E6275;font-size:12px">03 Oct</span><span>Quality check · no grade change</span></li>
+<li style="display:flex;gap:12px"><span class="m" style="width:62px;flex:none;color:#4E6275;font-size:12px">11 Oct</span><span>Keeper <span class="m">EvaluateLoan</span> · no change</span></li>
+<li style="display:flex;gap:12px;color:#4E6275"><span class="m" style="width:62px;flex:none;font-size:12px">31 Dec</span><span>Maturity · then 14-day grace before default</span></li>
+</ol>
+</section>
+</div>
+
+<section class="card" style="overflow:hidden">
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;padding:16px 20px;border-bottom:1px solid #D9E3EC"><h2 style="margin:0;font-size:15px;font-weight:700">Escrow ledger</h2><span style="font-size:13px">Balance held <b class="m">2,000,000 TZS</b> · releases to lender at 6,540,000</span></div>
+<div class="tw"><table>
+<thead><tr><th>When</th><th>Entry</th><th class="r">Amount (TZS)</th><th>Payment ref (simulated rail)</th><th>Tx</th></tr></thead>
+<tbody>
+<tr><td class="m">06 Oct 16:40</td><td><span class="chip cp"><span class="dot"></span>REPAYMENT</span></td><td class="r m">+1,000,000</td><td class="m">MPESA-SIM-4602231</td><td class="m" style="color:#4E6275">c71e08…3b5d</td></tr>
+<tr><td class="m">19 Sep 10:15</td><td><span class="chip cp"><span class="dot"></span>REPAYMENT</span></td><td class="r m">+1,000,000</td><td class="m">MPESA-SIM-4520188</td><td class="m" style="color:#4E6275">a90f3d…77e1</td></tr>
+<tr><td class="m">02 Sep 14:02</td><td><span class="chip ci"><span class="dot"></span>DISBURSE_TO_FARMER</span></td><td class="r m">−6,000,000</td><td class="m">MPESA-SIM-4471920</td><td class="m" style="color:#4E6275">5d24c1…0a9f</td></tr>
+<tr><td class="m">02 Sep 14:02</td><td><span class="chip"><span class="dot"></span>FUND</span></td><td class="r m">+6,000,000</td><td class="m">BANK-SIM-77104</td><td class="m" style="color:#4E6275">5d24c1…0a9f</td></tr>
+</tbody></table></div>
+</section>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

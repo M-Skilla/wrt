@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Warehouse overview · WRT</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F2F6FA}
+a{color:#00739F}a:hover{color:#0B1726}
+.m{font-family:'Geist Mono',ui-monospace,monospace}
+.pd{display:inline-block;width:6px;height:6px;border-radius:50%;background:#00BDFF;margin-right:5px;vertical-align:1px}
+.nav a{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:40px;padding:0 12px;border-radius:4px;color:#B8C7D6;text-decoration:none;font-size:14px;font-weight:500}
+.nav a:hover{background:#13253A;color:#FFFFFF}
+.nav a.on{background:#16304A;color:#FFFFFF;box-shadow:inset 3px 0 0 #FBD116}
+.nav .n{font-family:'Geist Mono',monospace;font-size:11px;color:#7F96AC}
+.lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4E6275}
+.card{background:#FFFFFF;border:1px solid #D9E3EC;border-radius:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 8px;border-radius:4px;font-size:12px;font-weight:600;color:#0B1726;background:#EEF3F8;white-space:nowrap}
+.dot{width:7px;height:7px;border-radius:50%;flex:none;background:#8A9BAD}
+.ci{background:#E0F6FF}.ci .dot{background:#00BDFF}
+.cp{background:#E3F0F8}.cp .dot{background:#56A7D2}
+.cy{background:#FEF6CC}.cy .dot{background:#FBD116;box-shadow:0 0 0 1px #0B1726}
+.cr{background:#FDE7E8}.cr .dot{background:#E5484D}
+.cg{background:#E2F5EA}.cg .dot{background:#12A150}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border-radius:6px;border:1px solid #0B1726;background:#0B1726;color:#FFFFFF;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn:hover{color:#FFFFFF;background:#1B3049}
+.btn.s{background:#FFFFFF;color:#0B1726;border-color:#C9D6E2}
+.btn.y{background:#FBD116;border-color:#FBD116;color:#0B1726}
+.btn.y:hover{background:#F0C400;color:#0B1726}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#4E6275;padding:10px 14px;border-bottom:1px solid #D9E3EC;background:#F7FAFC;white-space:nowrap}
+td{padding:12px 14px;border-bottom:1px solid #EAF0F5;vertical-align:middle}
+tr:last-child td{border-bottom:0}
+.r{text-align:right}
+.tw{overflow-x:auto}
+.task{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px 18px;border-bottom:1px solid #EAF0F5;color:#0B1726;text-decoration:none}
+.task:hover{background:#F7FAFC;color:#0B1726}
+.task:last-child{border-bottom:0}
+.ev{display:grid;grid-template-columns:52px minmax(0,1fr);gap:10px;padding:10px 0;border-bottom:1px solid #EAF0F5;font-size:13px}
+.ev:last-child{border-bottom:0}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;font-family:'Plus Jakarta Sans',sans-serif;color:#0B1726;background:#F2F6FA">
+<header style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;padding:10px 20px;background:#0B1726;color:#FFFFFF;border-bottom:1px solid #1E3349">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px">
+<a href="Main.dc.html" style="display:flex;align-items:center;gap:10px;color:#FFFFFF;text-decoration:none;font-weight:800;font-size:17px"><span style="width:24px;height:24px;border-radius:5px;background:#FBD116;display:grid;place-items:center"><span style="width:9px;height:11px;border:2px solid #0B1726;border-radius:2px"></span></span>WRT</a>
+<div class="m" style="display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12px;color:#8FA6BC"><span>wrt-channel</span><span>block 48,213</span><span>policy 3 of 4</span><span><span class="pd"></span>WH <span class="pd" style="margin-left:6px"></span>LN <span class="pd" style="margin-left:6px"></span>IN <span class="pd" style="margin-left:6px"></span>RG</span></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-size:13px"><span class="m" style="padding:3px 8px;border:1px solid #2A4058;border-radius:4px;color:#00BDFF;font-size:12px">WarehouseMSP</span><span style="color:#B8C7D6">warehouse_operator</span><span class="m" style="font-size:12px">WH-001</span><a href="Main.dc.html" style="color:#FBD116;font-weight:600;text-decoration:none">Switch identity</a></div>
+</header>
+<div style="display:flex;flex-wrap:wrap;flex:1">
+<nav class="nav" aria-label="Warehouse" style="flex:1 1 220px;box-sizing:border-box;background:#0B1726;padding:16px 12px;display:flex;flex-direction:column;gap:2px">
+<div class="lbl" style="color:#7F96AC;padding:8px 12px 10px">Warehouse</div>
+<a href="WhOverview.dc.html" class="on">Overview</a>
+<a href="WhFarmers.dc.html">Farmers<span class="n">46</span></a>
+<a href="WhRecordDeposit.dc.html">Record deposit</a>
+<a href="WhDeposits.dc.html">Deposits<span class="n">3</span></a>
+<a href="WhReceipts.dc.html">Receipts in custody<span class="n">38</span></a>
+<a href="WhWithdrawals.dc.html">Withdrawals<span class="n">1</span></a>
+<div style="margin-top:auto;padding:16px 12px 4px;font-size:12px;color:#7F96AC;line-height:1.6">Kongwa Grain Store<br><span class="m">WRRB/LIC/DOD/0112</span></div>
+</nav>
+<main style="flex:999 1 560px;min-width:0;box-sizing:border-box;padding:28px 32px 48px;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;gap:8px;flex-wrap:wrap"><span class="chip cg"><span class="dot"></span>Licence active</span><span class="chip m" style="font-size:11px">penalties 0</span><span class="chip m" style="font-size:11px">bond NIC-BND-2026-0331</span></div>
+<h1 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-.02em">Kongwa Grain Store</h1>
+<div style="font-size:14px;color:#4E6275">Dodoma region · Sunday 11 October 2026</div>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn s" href="ModalsA.dc.html">Register farmer</a><a class="btn y" href="WhRecordDeposit.dc.html">Record deposit</a></div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+<a class="card" href="WhReceipts.dc.html" style="padding:16px;display:flex;flex-direction:column;gap:6px;color:#0B1726;text-decoration:none"><span class="lbl">Receipts in custody</span><span class="m" style="font-size:28px;font-weight:600">38</span><span style="font-size:12px;color:#4E6275">21 pledged · 17 free</span></a>
+<a class="card" href="WhDeposits.dc.html" style="padding:16px;display:flex;flex-direction:column;gap:6px;color:#0B1726;text-decoration:none"><span class="lbl">Awaiting attestation</span><span class="m" style="font-size:28px;font-weight:600">3</span><span style="font-size:12px;color:#4E6275">oldest 2 days</span></a>
+<a class="card" href="WhDeposits.dc.html" style="padding:16px;display:flex;flex-direction:column;gap:6px;color:#0B1726;text-decoration:none;background:#FEF6CC;border-color:#F3DD6B"><span class="lbl" style="color:#0B1726">Open disputes</span><span class="m" style="font-size:28px;font-weight:600">2</span><span style="font-size:12px">1 mismatch at minting</span></a>
+<a class="card" href="WhWithdrawals.dc.html" style="padding:16px;display:flex;flex-direction:column;gap:6px;color:#0B1726;text-decoration:none"><span class="lbl">Withdrawals to confirm</span><span class="m" style="font-size:28px;font-weight:600">1</span><span style="font-size:12px;color:#4E6275">physical release pending</span></a>
+</div>
+
+<section class="card" style="padding:18px 20px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px"><h2 style="margin:0;font-size:15px;font-weight:700">Storage utilisation</h2><span class="m" style="font-size:13px">412,600 / 600,000 kg · 68.8%</span></div>
+<div style="display:flex;height:16px;border-radius:3px;overflow:hidden;background:#EAF0F5" role="img" aria-label="Maize 52%, paddy 9%, sesame 6%, cashew 2%">
+<div style="width:52%;background:#0B1726"></div><div style="width:9%;background:#56A7D2"></div><div style="width:6%;background:#00BDFF"></div><div style="width:1.8%;background:#FBD116"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:8px 20px;font-size:12px;color:#4E6275">
+<span><span style="display:inline-block;width:10px;height:10px;background:#0B1726;border-radius:2px;margin-right:6px;vertical-align:-1px"></span>Maize <span class="m">312,000</span></span>
+<span><span style="display:inline-block;width:10px;height:10px;background:#56A7D2;border-radius:2px;margin-right:6px;vertical-align:-1px"></span>Paddy <span class="m">54,150</span></span>
+<span><span style="display:inline-block;width:10px;height:10px;background:#00BDFF;border-radius:2px;margin-right:6px;vertical-align:-1px"></span>Sesame <span class="m">35,450</span></span>
+<span><span style="display:inline-block;width:10px;height:10px;background:#FBD116;border-radius:2px;margin-right:6px;vertical-align:-1px;box-shadow:0 0 0 1px #0B1726"></span>Cashew <span class="m">11,000</span></span>
+</div>
+</section>
+
+<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start">
+<section class="card" style="flex:1 1 460px;min-width:0;overflow:hidden">
+<div style="padding:16px 18px;border-bottom:1px solid #D9E3EC"><h2 style="margin:0;font-size:15px;font-weight:700">Needs your attention</h2></div>
+<a class="task" href="DisputeDetail.dc.html"><span style="display:flex;flex-direction:column;gap:4px"><span style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="chip cy"><span class="dot"></span>Dispute</span><b style="font-size:14px">Grade challenge on WRT-WH001-000119</b></span><span style="font-size:12px;color:#4E6275">DSP-0017 · re-inspected G3, regulator ruling pending · receipt frozen</span></span><span class="m" style="font-size:12px;color:#4E6275">view →</span></a>
+<a class="task" href="WhDeposits.dc.html"><span style="display:flex;flex-direction:column;gap:4px"><span style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="chip cr"><span class="dot"></span>Mismatch</span><b style="font-size:14px">DEP-WH001-0129 declared 10,000 kg, observed 9,200 kg</b></span><span style="font-size:12px;color:#4E6275">DSP-0018 auto-opened · no receipt minted · awaiting re-inspection</span></span><span class="m" style="font-size:12px;color:#4E6275">view →</span></a>
+<a class="task" href="WhWithdrawals.dc.html"><span style="display:flex;flex-direction:column;gap:4px"><span style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="chip ci"><span class="dot"></span>Withdrawal</span><b style="font-size:14px">Release 5,000 kg maize to Juma Hassani</b></span><span style="font-size:12px;color:#4E6275">WRT-WH001-000110 · no lien · requested 10 Oct</span></span><span class="m" style="font-size:12px;color:#4E6275">confirm →</span></a>
+<a class="task" href="WhDeposits.dc.html"><span style="display:flex;flex-direction:column;gap:4px"><span style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="chip"><span class="dot"></span>Pending</span><b style="font-size:14px">3 deposits waiting for inspectors</b></span><span style="font-size:12px;color:#4E6275">INS-03 × 2, INS-01 × 1 · assigned by tx-hash draw</span></span><span class="m" style="font-size:12px;color:#4E6275">view →</span></a>
+</section>
+<section class="card" style="flex:1 1 320px;min-width:0;padding:16px 18px;display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0;font-size:15px;font-weight:700">Live activity</h2><span class="m" style="font-size:11px;color:#00739F"><span class="pd"></span>streaming</span></div>
+<div class="ev"><span class="m" style="font-size:12px;color:#4E6275">09:41</span><span><b>EvaluateLoan</b> · LN-0042 · no change</span></div>
+<div class="ev"><span class="m" style="font-size:12px;color:#4E6275">09:12</span><span><b>DepositRecorded</b> · DEP-WH001-0131 → INS-03</span></div>
+<div class="ev"><span class="m" style="font-size:12px;color:#4E6275">Sat</span><span><b>WithdrawalRequested</b> · 000110 · FRM-002</span></div>
+<div class="ev"><span class="m" style="font-size:12px;color:#4E6275">Fri</span><span><b>DisputeOpened</b> · DSP-0018 · MINT_MISMATCH</span></div>
+<div class="ev"><span class="m" style="font-size:12px;color:#4E6275">Fri</span><span><b>ReceiptIssued</b> · WRT-WH001-000128</span></div>
+<div class="ev"><span class="m" style="font-size:12px;color:#4E6275">Thu</span><span><b>ReinspectionSubmitted</b> · DSP-0017</span></div>
+</section>
+</div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1150}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

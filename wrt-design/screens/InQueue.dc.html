@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Assignment queue · WRT</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F2F6FA}
+a{color:#00739F}a:hover{color:#0B1726}
+.m{font-family:'Geist Mono',ui-monospace,monospace}
+.pd{display:inline-block;width:6px;height:6px;border-radius:50%;background:#00BDFF;margin-right:5px;vertical-align:1px}
+.nav a{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:40px;padding:0 12px;border-radius:4px;color:#B8C7D6;text-decoration:none;font-size:14px;font-weight:500}
+.nav a:hover{background:#13253A;color:#FFFFFF}
+.nav a.on{background:#16304A;color:#FFFFFF;box-shadow:inset 3px 0 0 #FBD116}
+.nav .n{font-family:'Geist Mono',monospace;font-size:11px;color:#7F96AC}
+.lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4E6275}
+.card{background:#FFFFFF;border:1px solid #D9E3EC;border-radius:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 8px;border-radius:4px;font-size:12px;font-weight:600;color:#0B1726;background:#EEF3F8;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border-radius:6px;border:1px solid #0B1726;background:#0B1726;color:#FFFFFF;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn:hover{color:#FFFFFF;background:#1B3049}
+.btn.y{background:#FBD116;border-color:#FBD116;color:#0B1726}
+.btn.y:hover{background:#F0C400;color:#0B1726}
+.q{display:grid;grid-template-columns:120px minmax(0,1fr) auto;gap:16px;align-items:center;padding:16px 20px;border-bottom:1px solid #EAF0F5}
+.q:last-child{border-bottom:0}
+.ty{font-family:'Geist Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.04em;padding:6px 8px;border-radius:4px;text-align:center}
+.gh{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:#F7FAFC;border-bottom:1px solid #D9E3EC}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;font-family:'Plus Jakarta Sans',sans-serif;color:#0B1726;background:#F2F6FA">
+<header style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;padding:10px 20px;background:#0B1726;color:#FFFFFF;border-bottom:1px solid #1E3349">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px">
+<a href="Main.dc.html" style="display:flex;align-items:center;gap:10px;color:#FFFFFF;text-decoration:none;font-weight:800;font-size:17px"><span style="width:24px;height:24px;border-radius:5px;background:#FBD116;display:grid;place-items:center"><span style="width:9px;height:11px;border:2px solid #0B1726;border-radius:2px"></span></span>WRT</a>
+<div class="m" style="display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12px;color:#8FA6BC"><span>wrt-channel</span><span>block 48,213</span><span>policy 3 of 4</span><span><span class="pd"></span>WH <span class="pd" style="margin-left:6px"></span>LN <span class="pd" style="margin-left:6px"></span>IN <span class="pd" style="margin-left:6px"></span>RG</span></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-size:13px"><span class="m" style="padding:3px 8px;border:1px solid #2A4058;border-radius:4px;color:#00BDFF;font-size:12px">InspectorMSP</span><span style="color:#B8C7D6">inspector</span><span class="m" style="font-size:12px">INS-03</span><a href="Main.dc.html" style="color:#FBD116;font-weight:600;text-decoration:none">Switch identity</a></div>
+</header>
+<div style="display:flex;flex-wrap:wrap;flex:1">
+<nav class="nav" aria-label="Inspector" style="flex:1 1 220px;box-sizing:border-box;background:#0B1726;padding:16px 12px;display:flex;flex-direction:column;gap:2px">
+<div class="lbl" style="color:#7F96AC;padding:8px 12px 10px">Inspector</div>
+<a href="InQueue.dc.html" class="on">Assignment queue<span class="n">4</span></a>
+<a href="InForm.dc.html">Inspection form</a>
+<a href="InHistory.dc.html">Completed<span class="n">57</span></a>
+<div style="margin-top:auto;padding:16px 12px 4px;font-size:12px;color:#7F96AC;line-height:1.6">Zawadi Ngowi<br><span class="m">ACC/INS/2025/0093</span></div>
+</nav>
+<main style="flex:999 1 560px;min-width:0;box-sizing:border-box;padding:28px 32px 48px;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px">
+<div><div class="lbl">Inspector · INS-03</div><h1 style="margin:6px 0 0;font-size:28px;font-weight:800;letter-spacing:-.02em">Assignment queue</h1><p style="margin:8px 0 0;font-size:14px;color:#4E6275;max-width:640px">Assignments come from a tx-hash draw, never from the warehouse. You see crop data only; farmer identities are hidden from inspectors.</p></div>
+<div class="m" style="display:flex;gap:20px;font-size:13px"><span>conflicts declared <b>0</b></span><span>this month <b>14</b></span></div>
+</div>
+
+<section class="card" style="overflow:hidden">
+<div class="gh"><h2 style="margin:0;font-size:14px;font-weight:700">Attestations · 2</h2><span class="m" style="font-size:12px;color:#4E6275">minting depends on these</span></div>
+<div class="q"><span class="ty" style="background:#0B1726;color:#FBD116">ATTEST</span><div style="display:flex;flex-direction:column;gap:4px;min-width:0"><b class="m" style="font-size:14px">DEP-WH001-0131</b><span style="font-size:13px;color:#4E6275">Kongwa Grain Store · Sesame · declared G1 · 4,050 kg · 7.5% · seal TZ-SL-0101447</span></div><div style="display:flex;align-items:center;gap:14px"><span class="m" style="font-size:12px;color:#4E6275">assigned 09:12</span><a class="btn y" href="InForm.dc.html">Inspect</a></div></div>
+<div class="q"><span class="ty" style="background:#0B1726;color:#FBD116">ATTEST</span><div style="display:flex;flex-direction:column;gap:4px;min-width:0"><b class="m" style="font-size:14px">DEP-WH001-0128</b><span style="font-size:13px;color:#4E6275">Kongwa Grain Store · Cashew · declared G1 · 2,200 kg · 8.0% · seal TZ-SL-0101302</span></div><div style="display:flex;align-items:center;gap:14px"><span class="m" style="font-size:12px;color:#0B1726;font-weight:600">waiting 2 d</span><a class="btn y" href="InForm.dc.html">Inspect</a></div></div>
+</section>
+
+<section class="card" style="overflow:hidden">
+<div class="gh"><h2 style="margin:0;font-size:14px;font-weight:700">Quality checks · 1</h2><span class="m" style="font-size:12px;color:#4E6275">pledged receipts</span></div>
+<div class="q"><span class="ty" style="background:#E3F0F8">QUALITY</span><div style="display:flex;flex-direction:column;gap:4px;min-width:0"><b class="m" style="font-size:14px">WRT-WH001-000098</b><span style="font-size:13px;color:#4E6275">Sesame G1 · 2,500 kg · requested by LND-MFI-01 · last check 13 Sep</span></div><div style="display:flex;align-items:center;gap:14px"><span class="m" style="font-size:12px;color:#4E6275">due 13 Oct</span><a class="btn" href="InForm.dc.html">Start</a></div></div>
+</section>
+
+<section class="card" style="overflow:hidden">
+<div class="gh"><h2 style="margin:0;font-size:14px;font-weight:700">Re-inspections · 1</h2><span class="m" style="font-size:12px;color:#4E6275">for open disputes</span></div>
+<div class="q"><span class="ty" style="background:#FEF6CC;box-shadow:inset 0 0 0 1px #F3DD6B">REINSPECT</span><div style="display:flex;flex-direction:column;gap:4px;min-width:0"><b class="m" style="font-size:14px">DSP-0019 · WRT-WH002-000028</b><span style="font-size:13px;color:#4E6275">Mvomero Agro Store · Paddy · QUALITY_DEGRADATION · original reading hidden until you submit</span></div><div style="display:flex;align-items:center;gap:14px"><span class="m" style="font-size:12px;color:#4E6275">assigned 10 Oct</span><a class="btn" href="InForm.dc.html">Start</a></div></div>
+</section>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1050}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

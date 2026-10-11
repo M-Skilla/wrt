@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>My receipts · WRT</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F2F6FA}
+a{color:#00739F}a:hover{color:#0B1726}
+.m{font-family:'Geist Mono',ui-monospace,monospace}
+.pd{display:inline-block;width:6px;height:6px;border-radius:50%;background:#00BDFF;margin-right:5px;vertical-align:1px}
+.nav a{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:40px;padding:0 12px;border-radius:4px;color:#B8C7D6;text-decoration:none;font-size:14px;font-weight:500}
+.nav a:hover{background:#13253A;color:#FFFFFF}
+.nav a.on{background:#16304A;color:#FFFFFF;box-shadow:inset 3px 0 0 #FBD116}
+.nav .n{font-family:'Geist Mono',monospace;font-size:11px;color:#7F96AC}
+.lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4E6275}
+.card{background:#FFFFFF;border:1px solid #D9E3EC;border-radius:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 8px;border-radius:4px;font-size:12px;font-weight:600;color:#0B1726;background:#EEF3F8;white-space:nowrap}
+.dot{width:7px;height:7px;border-radius:50%;flex:none;background:#8A9BAD}
+.ci{background:#E0F6FF}.ci .dot{background:#00BDFF}
+.cp{background:#E3F0F8}.cp .dot{background:#56A7D2}
+.cg{background:#E2F5EA}.cg .dot{background:#12A150}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border-radius:6px;border:1px solid #0B1726;background:#0B1726;color:#FFFFFF;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn:hover{color:#FFFFFF;background:#1B3049}
+.btn.s{background:#FFFFFF;color:#0B1726;border-color:#C9D6E2}
+.btn.s:hover{background:#F2F6FA;color:#0B1726}
+.btn.y{background:#FBD116;border-color:#FBD116;color:#0B1726}
+.btn.y:hover{background:#F0C400;color:#0B1726}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.rc{display:flex;flex-direction:column;overflow:hidden}
+.rc .top{padding:18px 20px;display:flex;flex-direction:column;gap:12px}
+.rc .bot{padding:12px 20px;border-top:1px solid #D9E3EC;background:#F7FAFC;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;font-size:12px;color:#4E6275}
+.mini{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;font-family:'Plus Jakarta Sans',sans-serif;color:#0B1726;background:#F2F6FA">
+<header style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;padding:10px 20px;background:#0B1726;color:#FFFFFF;border-bottom:1px solid #1E3349">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px">
+<a href="Main.dc.html" style="display:flex;align-items:center;gap:10px;color:#FFFFFF;text-decoration:none;font-weight:800;font-size:17px"><span style="width:24px;height:24px;border-radius:5px;background:#FBD116;display:grid;place-items:center"><span style="width:9px;height:11px;border:2px solid #0B1726;border-radius:2px"></span></span>WRT</a>
+<div class="m" style="display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12px;color:#8FA6BC"><span>wrt-channel</span><span>block 48,213</span><span>policy 3 of 4</span></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-size:13px"><span class="m" style="padding:3px 8px;border:1px solid #2A4058;border-radius:4px;color:#00BDFF;font-size:12px">WarehouseMSP</span><span style="color:#B8C7D6">farmer</span><span class="m" style="font-size:12px">FRM-001</span><a href="Main.dc.html" style="color:#FBD116;font-weight:600;text-decoration:none">Switch identity</a></div>
+</header>
+<div style="display:flex;flex-wrap:wrap;flex:1">
+<nav class="nav" aria-label="Farmer" style="flex:1 1 220px;box-sizing:border-box;background:#0B1726;padding:16px 12px;display:flex;flex-direction:column;gap:2px">
+<div class="lbl" style="color:#7F96AC;padding:8px 12px 10px">Farmer</div>
+<a href="FmReceipts.dc.html" class="on">My receipts<span class="n">3</span></a>
+<a href="FmLoans.dc.html">Loans<span class="n" style="color:#FBD116">1 offer</span></a>
+<div style="margin-top:auto;padding:16px 12px 4px;font-size:12px;color:#7F96AC;line-height:1.6">Neema Mollel · Kongwa<br><span class="m">hosted by WarehouseMSP</span></div>
+</nav>
+<main style="flex:999 1 560px;min-width:0;box-sizing:border-box;padding:28px 32px 48px;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px">
+<div><div class="lbl">Habari, Neema</div><h1 style="margin:6px 0 0;font-size:28px;font-weight:800;letter-spacing:-.02em">My receipts</h1></div>
+<div style="display:flex;gap:24px;flex-wrap:wrap">
+<div><div class="lbl">Stored now</div><div class="m" style="font-size:22px;font-weight:600;margin-top:4px">14,200 kg</div></div>
+<div><div class="lbl">Total value</div><div class="m" style="font-size:22px;font-weight:600;margin-top:4px">16.2M TZS</div></div>
+</div>
+</div>
+
+<a href="FmLoans.dc.html" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;padding:16px 20px;border-radius:6px;background:#FBD116;color:#0B1726;text-decoration:none">
+<span style="display:flex;flex-direction:column;gap:2px"><b style="font-size:15px">You have a loan offer from Dodoma Agri Bank</b><span style="font-size:13px">3,300,000 TZS against your sesame receipt · 90 days · 8% flat</span></span>
+<span class="btn" style="pointer-events:none">Review offer</span>
+</a>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;align-items:stretch">
+<article class="card rc">
+<div class="top">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span class="chip cp"><span class="dot"></span>Pledged · LN-0042</span><span class="m" style="font-size:12px;color:#4E6275">exp 26 Feb 27</span></div>
+<div><div style="font-size:14px;font-weight:600">Maize · Grade G1</div><div class="m" style="font-size:34px;font-weight:600;letter-spacing:-.02em">12,400 <span style="font-size:15px;color:#4E6275">kg</span></div></div>
+<div class="mini"><div><div class="lbl">Value</div><div class="m" style="font-weight:600;margin-top:2px">10.54M</div></div><div><div class="lbl">Moisture</div><div class="m" style="font-weight:600;margin-top:2px">13.4%</div></div><div><div class="lbl">WRRB</div><div style="font-weight:600;margin-top:2px">Registered</div></div></div>
+<div style="font-size:13px;line-height:1.5;padding:10px 12px;border-radius:6px;background:#E3F0F8">Locked as collateral. It unlocks by itself when you finish repaying <b class="m">4,540,000</b> TZS.</div>
+</div>
+<div class="bot"><span class="m">WRT-WH001-000123</span><a href="FmLoans.dc.html" class="btn s">Repay loan</a></div>
+</article>
+<article class="card rc">
+<div class="top">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span class="chip ci"><span class="dot"></span>Issued · free</span><span class="m" style="font-size:12px;color:#4E6275">exp 29 Jan 27</span></div>
+<div><div style="font-size:14px;font-weight:600">Sesame · Grade G2</div><div class="m" style="font-size:34px;font-weight:600;letter-spacing:-.02em">1,800 <span style="font-size:15px;color:#4E6275">kg</span></div></div>
+<div class="mini"><div><div class="lbl">Value</div><div class="m" style="font-weight:600;margin-top:2px">5.67M</div></div><div><div class="lbl">Moisture</div><div class="m" style="font-weight:600;margin-top:2px">7.6%</div></div><div><div class="lbl">WRRB</div><div style="font-weight:600;margin-top:2px">Registered</div></div></div>
+<div style="font-size:13px;line-height:1.5;padding:10px 12px;border-radius:6px;background:#FEF6CC">1 loan offer waiting for your answer.</div>
+</div>
+<div class="bot"><span class="m">WRT-WH001-000117</span><span style="display:flex;gap:8px;flex-wrap:wrap"><a href="ModalsA.dc.html" class="btn s">Request withdrawal</a><a href="FmLoans.dc.html" class="btn y">See offer</a></span></div>
+</article>
+<article class="card rc" style="opacity:.85">
+<div class="top">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span class="chip cg"><span class="dot"></span>Redeemed</span><span class="m" style="font-size:12px;color:#4E6275">27 Sep 26</span></div>
+<div><div style="font-size:14px;font-weight:600">Maize · Grade G1</div><div class="m" style="font-size:34px;font-weight:600;letter-spacing:-.02em;color:#4E6275">3,000 <span style="font-size:15px">kg</span></div></div>
+<div style="font-size:13px;color:#4E6275;line-height:1.5">Crop collected from Kongwa Grain Store. Gate pass <span class="m">KGS-GP-26-1098</span>. Kept here for your history.</div>
+</div>
+<div class="bot"><span class="m">WRT-WH001-000104</span><a href="ReceiptDetail.dc.html">History →</a></div>
+</article>
+</div>
+<p style="margin:0;font-size:12px;color:#4E6275">Values use the regulator's illustrative reference prices. Your phone, name and ID are stored privately and are never shown to inspectors.</p>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1100}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

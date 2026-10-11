@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Lender portfolio · WRT</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F2F6FA}
+a{color:#00739F}a:hover{color:#0B1726}
+.m{font-family:'Geist Mono',ui-monospace,monospace}
+.pd{display:inline-block;width:6px;height:6px;border-radius:50%;background:#00BDFF;margin-right:5px;vertical-align:1px}
+.nav a{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:40px;padding:0 12px;border-radius:4px;color:#B8C7D6;text-decoration:none;font-size:14px;font-weight:500}
+.nav a:hover{background:#13253A;color:#FFFFFF}
+.nav a.on{background:#16304A;color:#FFFFFF;box-shadow:inset 3px 0 0 #FBD116}
+.nav .n{font-family:'Geist Mono',monospace;font-size:11px;color:#7F96AC}
+.lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4E6275}
+.card{background:#FFFFFF;border:1px solid #D9E3EC;border-radius:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 8px;border-radius:4px;font-size:12px;font-weight:600;color:#0B1726;background:#EEF3F8;white-space:nowrap}
+.dot{width:7px;height:7px;border-radius:50%;flex:none;background:#8A9BAD}
+.ci{background:#E0F6FF}.ci .dot{background:#00BDFF}
+.cy{background:#FEF6CC}.cy .dot{background:#FBD116;box-shadow:0 0 0 1px #0B1726}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border-radius:6px;border:1px solid #0B1726;background:#0B1726;color:#FFFFFF;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn:hover{color:#FFFFFF;background:#1B3049}
+.btn.y{background:#FBD116;border-color:#FBD116;color:#0B1726}
+.btn.y:hover{background:#F0C400;color:#0B1726}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#4E6275;padding:10px 14px;border-bottom:1px solid #D9E3EC;background:#F7FAFC;white-space:nowrap}
+td{padding:12px 14px;border-bottom:1px solid #EAF0F5;vertical-align:middle;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.r{text-align:right}
+.tw{overflow-x:auto}
+.al{display:grid;grid-template-columns:8px minmax(0,1fr) auto;gap:12px;align-items:start;padding:14px 18px;border-bottom:1px solid #EAF0F5;color:#0B1726;text-decoration:none;font-size:13px}
+.al:hover{background:#F7FAFC;color:#0B1726}
+.al:last-child{border-bottom:0}
+.bar{position:relative;height:22px;border-radius:3px;background:#F2F6FA}
+.bar .f{position:absolute;left:0;top:0;bottom:0;border-radius:3px}
+.bar .k{position:absolute;top:-4px;bottom:-4px;width:2px}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;font-family:'Plus Jakarta Sans',sans-serif;color:#0B1726;background:#F2F6FA">
+<header style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;padding:10px 20px;background:#0B1726;color:#FFFFFF;border-bottom:1px solid #1E3349">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px">
+<a href="Main.dc.html" style="display:flex;align-items:center;gap:10px;color:#FFFFFF;text-decoration:none;font-weight:800;font-size:17px"><span style="width:24px;height:24px;border-radius:5px;background:#FBD116;display:grid;place-items:center"><span style="width:9px;height:11px;border:2px solid #0B1726;border-radius:2px"></span></span>WRT</a>
+<div class="m" style="display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12px;color:#8FA6BC"><span>wrt-channel</span><span>block 48,213</span><span>policy 3 of 4</span><span><span class="pd"></span>WH <span class="pd" style="margin-left:6px"></span>LN <span class="pd" style="margin-left:6px"></span>IN <span class="pd" style="margin-left:6px"></span>RG</span></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-size:13px"><span class="m" style="padding:3px 8px;border:1px solid #2A4058;border-radius:4px;color:#00BDFF;font-size:12px">LenderMSP</span><span style="color:#B8C7D6">lender_officer</span><span class="m" style="font-size:12px">LND-MFI-01</span><a href="Main.dc.html" style="color:#FBD116;font-weight:600;text-decoration:none">Switch identity</a></div>
+</header>
+<div style="display:flex;flex-wrap:wrap;flex:1">
+<nav class="nav" aria-label="Lender" style="flex:1 1 220px;box-sizing:border-box;background:#0B1726;padding:16px 12px;display:flex;flex-direction:column;gap:2px">
+<div class="lbl" style="color:#7F96AC;padding:8px 12px 10px">Lender</div>
+<a href="LnPortfolio.dc.html" class="on">Portfolio</a>
+<a href="LnCollateral.dc.html">Eligible collateral<span class="n">5</span></a>
+<a href="LnLoans.dc.html">My loans<span class="n">6</span></a>
+<a href="LnDisputes.dc.html">Disputes raised<span class="n">1</span></a>
+<div style="margin-top:auto;padding:16px 12px 4px;font-size:12px;color:#7F96AC;line-height:1.6">Uhuru Rural MFI<br><span class="m">hosted identity · no peer</span></div>
+</nav>
+<main style="flex:999 1 560px;min-width:0;box-sizing:border-box;padding:28px 32px 48px;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px">
+<div style="display:flex;flex-direction:column;gap:6px"><div class="lbl">Uhuru Rural MFI · MFI licence BOT/MFI/T2/0417</div><h1 style="margin:0;font-size:28px;font-weight:800;letter-spacing:-.02em">Portfolio</h1></div>
+<a class="btn y" href="LnCollateral.dc.html">Find collateral</a>
+</div>
+<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:12px 16px;border-radius:6px;background:#0B1726;color:#FFFFFF;font-size:13px">
+<span class="m" style="font-size:11px;padding:3px 8px;border-radius:3px;background:#FBD116;color:#0B1726;font-weight:600">TIER 2</span>
+<span>You transact through LenderMSP's peer with a hosted certificate. No node to run, same tamper-evident ledger.</span>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+<div class="card" style="padding:16px;display:flex;flex-direction:column;gap:6px"><span class="lbl">Outstanding</span><span class="m" style="font-size:24px;font-weight:600">13,242,000</span><span style="font-size:12px;color:#4E6275">TZS · 3 active loans</span></div>
+<div class="card" style="padding:16px;display:flex;flex-direction:column;gap:6px"><span class="lbl">Collateral pledged</span><span class="m" style="font-size:24px;font-weight:600">26,528,000</span><span style="font-size:12px;color:#4E6275">TZS · 24,500 kg</span></div>
+<div class="card" style="padding:16px;display:flex;flex-direction:column;gap:6px"><span class="lbl">Portfolio LTV</span><span class="m" style="font-size:24px;font-weight:600">49.9%</span><span style="font-size:12px;color:#4E6275">weighted by collateral</span></div>
+<div class="card" style="padding:16px;display:flex;flex-direction:column;gap:6px"><span class="lbl">Repayments in escrow</span><span class="m" style="font-size:24px;font-weight:600">3,500,000</span><span style="font-size:12px;color:#4E6275">released on full repayment</span></div>
+<div class="card" style="padding:16px;display:flex;flex-direction:column;gap:6px"><span class="lbl">Offers pending</span><span class="m" style="font-size:24px;font-weight:600">1</span><span style="font-size:12px;color:#4E6275">LN-0047 · 5,000,000</span></div>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start">
+<section class="card" style="flex:1 1 480px;min-width:0;padding:18px 20px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px"><h2 style="margin:0;font-size:15px;font-weight:700">LTV by active loan</h2>
+<div class="m" style="display:flex;gap:14px;font-size:11px;color:#4E6275"><span><span style="display:inline-block;width:2px;height:10px;background:#56A7D2;margin-right:5px"></span>60 max</span><span><span style="display:inline-block;width:2px;height:10px;background:#0B1726;margin-right:5px"></span>75 margin</span><span><span style="display:inline-block;width:2px;height:10px;background:#E5484D;margin-right:5px"></span>85 default</span></div></div>
+<div style="display:grid;grid-template-columns:96px minmax(0,1fr) 64px;gap:12px 14px;align-items:center;font-size:13px">
+<a class="m" href="LoanDetail.dc.html">LN-0042</a><div class="bar"><div class="f" style="width:43.1%;background:#00BDFF"></div><div class="k" style="left:60%;background:#56A7D2"></div><div class="k" style="left:75%;background:#0B1726"></div><div class="k" style="left:85%;background:#E5484D"></div></div><span class="m r">43.1%</span>
+<a class="m" href="LoanDetail.dc.html">LN-0036</a><div class="bar"><div class="f" style="width:46.5%;background:#00BDFF"></div><div class="k" style="left:60%;background:#56A7D2"></div><div class="k" style="left:75%;background:#0B1726"></div><div class="k" style="left:85%;background:#E5484D"></div></div><span class="m r">46.5%</span>
+<a class="m" href="DisputeDetail.dc.html">LN-0039</a><div class="bar"><div class="f" style="width:63.5%;background:#56A7D2"></div><div class="f" style="left:63.5%;width:12.8%;background:repeating-linear-gradient(135deg,#FBD116 0 4px,#FFFFFF 4px 8px);border-radius:0"></div><div class="k" style="left:60%;background:#56A7D2"></div><div class="k" style="left:75%;background:#0B1726"></div><div class="k" style="left:85%;background:#E5484D"></div></div><span class="m r">63.5%</span>
+</div>
+<div style="font-size:12px;color:#4E6275;line-height:1.5">Hatched segment on LN-0039: projected LTV of 76.3% if DSP-0017 is ruled CORRECTED.</div>
+</section>
+<section class="card" style="flex:1 1 360px;min-width:0;overflow:hidden">
+<div style="padding:16px 18px;border-bottom:1px solid #D9E3EC"><h2 style="margin:0;font-size:15px;font-weight:700">Alerts</h2></div>
+<a class="al" href="DisputeDetail.dc.html"><span style="width:8px;height:8px;border-radius:50%;background:#FBD116;box-shadow:0 0 0 1px #0B1726;margin-top:5px"></span><span><b>DSP-0017 ruling pending</b><br><span style="color:#4E6275">LN-0039 frozen 4 d. Corrected ruling triggers margin call.</span></span><span class="m" style="font-size:12px;color:#4E6275">07 Oct</span></a>
+<a class="al" href="LnLoans.dc.html"><span style="width:8px;height:8px;border-radius:50%;background:#00BDFF;margin-top:5px"></span><span><b>LN-0036 matures in 9 days</b><br><span style="color:#4E6275">3,950,000 outstanding. Grace 14 d after.</span></span><span class="m" style="font-size:12px;color:#4E6275">20 Oct</span></a>
+<a class="al" href="ModalsB.dc.html"><span style="width:8px;height:8px;border-radius:50%;background:#56A7D2;margin-top:5px"></span><span><b>Quality check due · 000098</b><br><span style="color:#4E6275">Last check 28 days ago. Interval 30 d.</span></span><span class="m" style="font-size:12px;color:#4E6275">13 Oct</span></a>
+</section>
+</div>
+
+<section class="card" style="overflow:hidden">
+<div style="padding:16px 18px;border-bottom:1px solid #D9E3EC;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px"><h2 style="margin:0;font-size:15px;font-weight:700">Maturity schedule</h2><a href="LnLoans.dc.html" style="font-size:13px">All loans →</a></div>
+<div class="tw"><table>
+<thead><tr><th>Loan</th><th>Farmer</th><th>Collateral</th><th class="r">Outstanding</th><th>Maturity</th><th class="r">Days</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td class="m"><a href="LoanDetail.dc.html">LN-0036</a></td><td>Rehema Mushi</td><td>Sesame G1 · 2,500 kg</td><td class="r m">3,950,000</td><td class="m">20 Oct 2026</td><td class="r m" style="font-weight:700">9</td><td><span class="chip ci"><span class="dot"></span>Active</span></td></tr>
+<tr><td class="m"><a href="LoanDetail.dc.html">LN-0042</a></td><td>Neema Mollel</td><td>Maize G1 · 12,400 kg</td><td class="r m">4,540,000</td><td class="m">31 Dec 2026</td><td class="r m">81</td><td><span class="chip ci"><span class="dot"></span>Active</span></td></tr>
+<tr><td class="m"><a href="DisputeDetail.dc.html">LN-0039</a></td><td>Baraka Kimaro</td><td>Maize G2 · 9,600 kg</td><td class="r m">4,752,000</td><td class="m">22 Jan 2027<span style="color:#4E6275"> +4 d</span></td><td class="r m">107</td><td><span class="chip cy"><span class="dot"></span>Paused · dispute</span></td></tr>
+</tbody></table></div>
+</section>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1250}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

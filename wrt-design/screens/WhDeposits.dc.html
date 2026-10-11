@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Deposits · WRT</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F2F6FA}
+a{color:#00739F}a:hover{color:#0B1726}
+.m{font-family:'Geist Mono',ui-monospace,monospace}
+.pd{display:inline-block;width:6px;height:6px;border-radius:50%;background:#00BDFF;margin-right:5px;vertical-align:1px}
+.nav a{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:40px;padding:0 12px;border-radius:4px;color:#B8C7D6;text-decoration:none;font-size:14px;font-weight:500}
+.nav a:hover{background:#13253A;color:#FFFFFF}
+.nav a.on{background:#16304A;color:#FFFFFF;box-shadow:inset 3px 0 0 #FBD116}
+.nav .n{font-family:'Geist Mono',monospace;font-size:11px;color:#7F96AC}
+.lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4E6275}
+.card{background:#FFFFFF;border:1px solid #D9E3EC;border-radius:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 8px;border-radius:4px;font-size:12px;font-weight:600;color:#0B1726;background:#EEF3F8;white-space:nowrap}
+.dot{width:7px;height:7px;border-radius:50%;flex:none;background:#8A9BAD}
+.cr{background:#FDE7E8}.cr .dot{background:#E5484D}
+.cg{background:#E2F5EA}.cg .dot{background:#12A150}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border-radius:6px;border:1px solid #0B1726;background:#0B1726;color:#FFFFFF;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn.y{background:#FBD116;border-color:#FBD116;color:#0B1726}
+.btn.y:hover{background:#F0C400;color:#0B1726}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#4E6275;padding:10px 14px;border-bottom:1px solid #D9E3EC;background:#F7FAFC;white-space:nowrap}
+td{padding:12px 14px;border-bottom:1px solid #EAF0F5;vertical-align:middle;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.r{text-align:right}
+.tw{overflow-x:auto}
+.tabs{display:flex;flex-wrap:wrap;gap:4px;border-bottom:1px solid #D9E3EC}
+.tab{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;color:#4E6275;background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer}
+.tab.on{color:#0B1726;border-bottom-color:#0B1726}
+.tab .c{font-family:'Geist Mono',monospace;font-size:11px;padding:1px 6px;border-radius:3px;background:#EAF0F5;color:#0B1726}
+.tab.on .c{background:#FBD116}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;font-family:'Plus Jakarta Sans',sans-serif;color:#0B1726;background:#F2F6FA">
+<header style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;padding:10px 20px;background:#0B1726;color:#FFFFFF;border-bottom:1px solid #1E3349">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px">
+<a href="Main.dc.html" style="display:flex;align-items:center;gap:10px;color:#FFFFFF;text-decoration:none;font-weight:800;font-size:17px"><span style="width:24px;height:24px;border-radius:5px;background:#FBD116;display:grid;place-items:center"><span style="width:9px;height:11px;border:2px solid #0B1726;border-radius:2px"></span></span>WRT</a>
+<div class="m" style="display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12px;color:#8FA6BC"><span>wrt-channel</span><span>block 48,213</span><span>policy 3 of 4</span><span><span class="pd"></span>WH <span class="pd" style="margin-left:6px"></span>LN <span class="pd" style="margin-left:6px"></span>IN <span class="pd" style="margin-left:6px"></span>RG</span></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-size:13px"><span class="m" style="padding:3px 8px;border:1px solid #2A4058;border-radius:4px;color:#00BDFF;font-size:12px">WarehouseMSP</span><span style="color:#B8C7D6">warehouse_operator</span><span class="m" style="font-size:12px">WH-001</span><a href="Main.dc.html" style="color:#FBD116;font-weight:600;text-decoration:none">Switch identity</a></div>
+</header>
+<div style="display:flex;flex-wrap:wrap;flex:1">
+<nav class="nav" aria-label="Warehouse" style="flex:1 1 220px;box-sizing:border-box;background:#0B1726;padding:16px 12px;display:flex;flex-direction:column;gap:2px">
+<div class="lbl" style="color:#7F96AC;padding:8px 12px 10px">Warehouse</div>
+<a href="WhOverview.dc.html">Overview</a>
+<a href="WhFarmers.dc.html">Farmers<span class="n">46</span></a>
+<a href="WhRecordDeposit.dc.html">Record deposit</a>
+<a href="WhDeposits.dc.html" class="on">Deposits<span class="n">3</span></a>
+<a href="WhReceipts.dc.html">Receipts in custody<span class="n">38</span></a>
+<a href="WhWithdrawals.dc.html">Withdrawals<span class="n">1</span></a>
+<div style="margin-top:auto;padding:16px 12px 4px;font-size:12px;color:#7F96AC;line-height:1.6">Kongwa Grain Store<br><span class="m">WRRB/LIC/DOD/0112</span></div>
+</nav>
+<main style="flex:999 1 560px;min-width:0;box-sizing:border-box;padding:28px 32px 48px;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px">
+<div><div class="lbl">Before minting</div><h1 style="margin:6px 0 0;font-size:28px;font-weight:800;letter-spacing:-.02em">Deposits</h1></div>
+<a class="btn y" href="WhRecordDeposit.dc.html">Record deposit</a>
+</div>
+<div class="tabs" role="tablist">
+<button type="button" class="tab on" role="tab" aria-selected="true">Awaiting attestation<span class="c">3</span></button>
+<button type="button" class="tab" role="tab" aria-selected="false">Mismatch disputed<span class="c">1</span></button>
+<button type="button" class="tab" role="tab" aria-selected="false">Attested<span class="c">112</span></button>
+<button type="button" class="tab" role="tab" aria-selected="false">Rejected<span class="c">0</span></button>
+</div>
+<section class="card" style="overflow:hidden">
+<div class="tw"><table>
+<thead><tr><th>Deposit</th><th>Farmer</th><th>Commodity</th><th class="r">Declared kg</th><th class="r">Moisture</th><th>Seal</th><th>Inspector</th><th>Recorded</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td class="m">DEP-WH001-0131</td><td>Rehema Mushi <span class="m" style="color:#4E6275">FRM-003</span></td><td>Sesame G1</td><td class="r m">4,050</td><td class="r m">7.5%</td><td class="m">TZ-SL-0101447</td><td class="m">INS-03</td><td class="m">11 Oct 09:12</td><td><span class="chip"><span class="dot"></span>Awaiting</span></td></tr>
+<tr><td class="m">DEP-WH001-0130</td><td>Mwanaidi Shabani <span class="m" style="color:#4E6275">FRM-007</span></td><td>Maize G2</td><td class="r m">6,800</td><td class="r m">13.1%</td><td class="m">TZ-SL-0101391</td><td class="m">INS-01</td><td class="m">10 Oct 15:30</td><td><span class="chip"><span class="dot"></span>Awaiting</span></td></tr>
+<tr><td class="m">DEP-WH001-0128</td><td>Juma Hassani <span class="m" style="color:#4E6275">FRM-002</span></td><td>Cashew G1</td><td class="r m">2,200</td><td class="r m">8.0%</td><td class="m">TZ-SL-0101302</td><td class="m">INS-03</td><td class="m">09 Oct 11:05</td><td><span class="chip"><span class="dot"></span>Awaiting · 2 d</span></td></tr>
+</tbody></table></div>
+</section>
+
+<div class="lbl" style="margin-top:4px">Preview of the Mismatch disputed tab</div>
+<section class="card" style="overflow:hidden;border-color:#F4B4B6">
+<div class="tw"><table>
+<thead><tr><th>Deposit</th><th>Farmer</th><th>Commodity</th><th class="r">Declared</th><th class="r">Observed</th><th class="r">Gap</th><th>Dispute</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td class="m">DEP-WH001-0129</td><td>Baraka Kimaro <span class="m" style="color:#4E6275">FRM-004</span></td><td>Maize G2</td><td class="r m">10,000 kg</td><td class="r m">9,200 kg</td><td class="r m" style="color:#B4232A;font-weight:600">−8.00% · limit ±0.50%</td><td class="m"><a href="RgDisputes.dc.html">DSP-0018</a></td><td><span class="chip cr"><span class="dot"></span>No receipt minted</span></td></tr>
+</tbody></table></div>
+<div style="padding:12px 16px;border-top:1px solid #F4B4B6;background:#FFF7F7;font-size:12px;line-height:1.5">The inspector's reading was outside tolerance, so the chaincode opened a <span class="m">MINT_MISMATCH</span> dispute. The regulator will assign a second inspector. A <span class="m">FRAUDULENT</span> ruling suspends this warehouse.</div>
+</section>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

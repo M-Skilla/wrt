@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Modals A · WRT</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#00739F}a:hover{color:#0B1726}
+.m{font-family:'Geist Mono',ui-monospace,monospace}
+.lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4E6275}
+.dlg{background:#FFFFFF;border-radius:8px;box-shadow:0 1px 2px rgba(11,23,38,.08),0 12px 32px rgba(11,23,38,.18);display:flex;flex-direction:column;overflow:hidden}
+.dh{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:18px 20px 14px;border-bottom:1px solid #EAF0F5}
+.dh h2{margin:0;font-size:17px;font-weight:800;letter-spacing:-.01em}
+.dh p{margin:4px 0 0;font-size:12px;color:#4E6275}
+.x{width:36px;height:36px;border-radius:6px;border:1px solid #D9E3EC;background:#FFFFFF;display:grid;place-items:center;cursor:pointer;flex:none}
+.db{padding:16px 20px;display:flex;flex-direction:column;gap:14px;flex:1}
+.df{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 20px;border-top:1px solid #EAF0F5;background:#F7FAFC}
+.fld{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:#0B1726;min-width:0}
+.fld input,.fld select{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:500;color:#0B1726;min-height:42px;padding:0 12px;border:1px solid #C9D6E2;border-radius:6px;background:#FFFFFF;box-sizing:border-box;width:100%}
+.fld input.m{font-family:'Geist Mono',monospace}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.hint{font-size:12px;font-weight:500;color:#4E6275}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:0 16px;border-radius:6px;border:1px solid #0B1726;background:#0B1726;color:#FFFFFF;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn.s{background:#FFFFFF;color:#0B1726;border-color:#C9D6E2}
+.btn.y{background:#FBD116;border-color:#FBD116;color:#0B1726}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 16px;font-size:13px}
+.kv dt{color:#4E6275;margin:0}.kv dd{margin:0;font-weight:600;text-align:right}
+.ck{display:flex;align-items:center;gap:10px;font-size:13px}
+.ok{width:18px;height:18px;border-radius:4px;background:#E2F5EA;display:grid;place-items:center;flex:none}
+.cap{font-family:'Geist Mono',monospace;font-size:11px;color:#4E6275;margin-bottom:8px}
+</style>
+</helmet>
+<div style="width:1440px;height:1360px;box-sizing:border-box;padding:48px;background:#C9D3DD;font-family:'Plus Jakarta Sans',sans-serif;color:#0B1726;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px 36px;align-content:start">
+
+<div><div class="cap">Warehouse · RegistryContract:RegisterFarmer</div>
+<section class="dlg" role="dialog" aria-label="Register farmer">
+<div class="dh"><div><h2>Register farmer</h2><p>Identity goes to the private collection, not public state.</p></div><button type="button" class="x" aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0B1726" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
+<div class="db">
+<label class="fld">Full name<input type="text" value="Elias Mbwambo"></label>
+<div class="g2"><label class="fld">Phone<input class="m" type="text" value="+255 754 112 820"></label><label class="fld">Village / ward<input type="text" value="Kongwa"></label></div>
+<label class="fld">NIDA number<input class="m" type="text" value="19870412-00218-0000-1"></label>
+<div style="padding:10px 12px;border-radius:6px;background:#E3F0F8;font-size:12px;line-height:1.5">Sent as transient data to <span class="m">farmerPII</span>. On-chain: <span class="m">FRM-008</span> + <span class="m">sha256</span>.</div>
+</div>
+<div class="df"><span class="hint">ID assigned on commit</span><span style="display:flex;gap:8px"><button type="button" class="btn s">Cancel</button><button type="button" class="btn y">Register</button></span></div>
+</section></div>
+
+<div><div class="cap">Regulator · RegistryContract:RegisterWarehouse</div>
+<section class="dlg" role="dialog" aria-label="Register warehouse">
+<div class="dh"><div><h2>Register warehouse</h2><p>Onboards a hosted member. No node required.</p></div><button type="button" class="x" aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0B1726" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
+<div class="db">
+<label class="fld">Warehouse name<input type="text" value="Bahi Cooperative Store"></label>
+<div class="g2"><label class="fld">Region<select><option>Dodoma</option><option>Morogoro</option><option>Singida</option></select></label><label class="fld">Capacity (kg)<input class="m" type="text" value="250,000"></label></div>
+<div class="g2"><label class="fld">WRRB licence no.<input class="m" type="text" value="WRRB/LIC/DOD/0131"></label><label class="fld">Bond / insurance ref<input class="m" type="text" value="NIC-BND-2026-0412"></label></div>
+<label class="fld">Operator login<input type="text" value="ops@bahicoop.co.tz"><span class="hint">Enrolled at the Warehouse CA with wrt.role=warehouse_operator</span></label>
+</div>
+<div class="df"><span class="m hint">→ WH-003</span><span style="display:flex;gap:8px"><button type="button" class="btn s">Cancel</button><button type="button" class="btn">Register</button></span></div>
+</section></div>
+
+<div><div class="cap">Lender · LoanContract:OfferLoan</div>
+<section class="dlg" role="dialog" aria-label="Make loan offer">
+<div class="dh"><div><h2>Make loan offer</h2><p class="m">WRT-WH001-000124 · Paddy G2 · 8,150 kg</p></div><button type="button" class="x" aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0B1726" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
+<div class="db">
+<label class="fld">Principal (TZS)<input class="m" type="text" value="5,000,000"><span class="hint">Max at 60% LTV: <span class="m">5,134,500</span></span></label>
+<div class="g2"><label class="fld">Flat interest (%)<input class="m" type="text" value="8.50"></label><label class="fld">Term<select><option>90 days</option><option>120 days</option><option>180 days</option></select></label></div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;justify-content:space-between;font-size:13px"><span>LTV at offer</span><b class="m">58.4%</b></div>
+<div style="position:relative;height:10px;border-radius:3px;background:#EAF0F5"><div style="position:absolute;left:0;top:0;bottom:0;width:58.4%;background:#00BDFF;border-radius:3px"></div><div style="position:absolute;left:60%;top:-3px;width:2px;height:16px;background:#0B1726"></div></div>
+</div>
+<dl class="kv"><dt>Farmer repays</dt><dd class="m">5,425,000</dd><dt>Collateral value</dt><dd class="m">8,557,500</dd></dl>
+</div>
+<div class="df"><span class="hint">Valid 3 days</span><span style="display:flex;gap:8px"><button type="button" class="btn s">Cancel</button><button type="button" class="btn y">Send offer</button></span></div>
+</section></div>
+
+<div><div class="cap">Farmer · LoanContract:AcceptLoan</div>
+<section class="dlg" role="dialog" aria-label="Accept loan offer">
+<div class="dh"><div><h2>Accept this loan?</h2><p class="m">LN-0048 · Dodoma Agri Bank</p></div><button type="button" class="x" aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0B1726" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
+<div class="db">
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:14px;border-radius:6px;background:#0B1726;color:#FFFFFF"><span style="font-size:13px;color:#B8C7D6">You receive</span><span class="m" style="font-size:24px;font-weight:600">3,300,000</span></div>
+<dl class="kv"><dt>You repay</dt><dd class="m">3,564,000</dd><dt>Due</dt><dd class="m">90 days after payout</dd><dt>Collateral</dt><dd>Sesame G2 · 1,800 kg</dd></dl>
+<label style="display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.5;padding:12px;border:1px solid #D9E3EC;border-radius:6px;cursor:pointer"><input type="checkbox" checked="checked" style="width:18px;height:18px;margin:1px 0 0;accent-color:#0B1726;flex:none"><span>I understand my receipt is locked until I repay in full, and my crop may be sold if I default.</span></label>
+</div>
+<div class="df"><button type="button" class="btn s">Decline</button><button type="button" class="btn y">Accept and lock receipt</button></div>
+</section></div>
+
+<div><div class="cap">Lender · LoanContract:FundEscrow</div>
+<section class="dlg" role="dialog" aria-label="Fund escrow">
+<div class="dh"><div><h2>Fund escrow</h2><p class="m">LN-0048 · principal 3,300,000</p></div><button type="button" class="x" aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0B1726" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
+<div class="db">
+<div class="g2"><label class="fld">Amount (TZS)<input class="m" type="text" value="3,300,000"></label><label class="fld">Payment ref<input class="m" type="text" value="BANK-SIM-77391"></label></div>
+<div class="lbl">Release checks on submit</div>
+<div class="ck"><span class="ok"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#12A150" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span>Escrow ≥ principal</div>
+<div class="ck"><span class="ok"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#12A150" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span>Lien on this loan · WRRB registered</div>
+<div class="ck"><span class="ok"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#12A150" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span>Warehouse active · no open dispute</div>
+<div class="ck"><span class="ok" style="background:#FEF6CC"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0B1726" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 7v6M12 17h.01"></path></svg></span>Attestation 6 d old · limit 7 d</div>
+<span class="hint">All pass → funds go to the farmer in the same transaction.</span>
+</div>
+<div class="df"><span class="hint">Simulated rail</span><span style="display:flex;gap:8px"><button type="button" class="btn s">Cancel</button><button type="button" class="btn">Fund escrow</button></span></div>
+</section></div>
+
+<div><div class="cap">Farmer · LoanContract:Repay</div>
+<section class="dlg" role="dialog" aria-label="Repay loan">
+<div class="dh"><div><h2>Repay</h2><p class="m">LN-0042 · outstanding 4,540,000</p></div><button type="button" class="x" aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0B1726" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
+<div class="db">
+<label class="fld">Amount (TZS)<input class="m" type="text" value="1,000,000"></label>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn s" style="min-height:34px;font-size:12px">500,000</button><button type="button" class="btn s" style="min-height:34px;font-size:12px">1,000,000</button><button type="button" class="btn s" style="min-height:34px;font-size:12px">Pay all · 4,540,000</button></div>
+<label class="fld">Mobile money ref<input class="m" type="text" value="MPESA-SIM-4688103"></label>
+<dl class="kv" style="padding-top:4px;border-top:1px solid #EAF0F5"><dt>Left after this</dt><dd class="m">3,540,000</dd><dt>Receipt</dt><dd>stays locked</dd></dl>
+</div>
+<div class="df"><span class="hint">Held in escrow</span><span style="display:flex;gap:8px"><button type="button" class="btn s">Cancel</button><button type="button" class="btn y">Repay</button></span></div>
+</section></div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1360}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

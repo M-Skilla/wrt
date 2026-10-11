@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Modals B · WRT</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#00739F}a:hover{color:#0B1726}
+.m{font-family:'Geist Mono',ui-monospace,monospace}
+.lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4E6275}
+.dlg{background:#FFFFFF;border-radius:8px;box-shadow:0 1px 2px rgba(11,23,38,.08),0 12px 32px rgba(11,23,38,.18);display:flex;flex-direction:column;overflow:hidden}
+.dh{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:18px 20px 14px;border-bottom:1px solid #EAF0F5}
+.dh h2{margin:0;font-size:17px;font-weight:800;letter-spacing:-.01em}
+.dh p{margin:4px 0 0;font-size:12px;color:#4E6275}
+.x{width:36px;height:36px;border-radius:6px;border:1px solid #D9E3EC;background:#FFFFFF;display:grid;place-items:center;cursor:pointer;flex:none}
+.db{padding:16px 20px;display:flex;flex-direction:column;gap:14px;flex:1}
+.df{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 20px;border-top:1px solid #EAF0F5;background:#F7FAFC}
+.fld{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:#0B1726;min-width:0}
+.fld input,.fld select,.fld textarea{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:500;color:#0B1726;min-height:42px;padding:0 12px;border:1px solid #C9D6E2;border-radius:6px;background:#FFFFFF;box-sizing:border-box;width:100%}
+.fld textarea{padding:10px 12px;min-height:76px;resize:vertical}
+.fld input.m{font-family:'Geist Mono',monospace}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.hint{font-size:12px;font-weight:500;color:#4E6275}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:0 16px;border-radius:6px;border:1px solid #0B1726;background:#0B1726;color:#FFFFFF;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn.s{background:#FFFFFF;color:#0B1726;border-color:#C9D6E2}
+.btn.y{background:#FBD116;border-color:#FBD116;color:#0B1726}
+.btn.r{background:#C8282E;border-color:#C8282E;color:#FFFFFF}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 16px;font-size:13px}
+.kv dt{color:#4E6275;margin:0}.kv dd{margin:0;font-weight:600;text-align:right}
+.cap{font-family:'Geist Mono',monospace;font-size:11px;color:#4E6275;margin-bottom:8px}
+.opt{display:grid;grid-template-columns:18px minmax(0,1fr);gap:10px;align-items:start;padding:10px 12px;border:1px solid #D9E3EC;border-radius:6px;font-size:13px;cursor:pointer}
+.opt input{margin:2px 0 0;width:16px;height:16px;accent-color:#0B1726}
+.ins{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border:1px solid #D9E3EC;border-radius:6px;font-size:13px}
+</style>
+</helmet>
+<div style="width:1440px;height:1400px;box-sizing:border-box;padding:48px;background:#C9D3DD;font-family:'Plus Jakarta Sans',sans-serif;color:#0B1726;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px 36px;align-content:start">
+
+<div><div class="cap">Lender · ReceiptContract:RequestQualityCheck</div>
+<section class="dlg" role="dialog" aria-label="Request quality check">
+<div class="dh"><div><h2>Request quality check</h2><p class="m">WRT-WH001-000098 · Sesame G1 · pledged LN-0036</p></div><button type="button" class="x" aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0B1726" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
+<div class="db">
+<dl class="kv"><dt>Last check</dt><dd class="m">13 Sep · 28 d ago</dd><dt>Policy interval</dt><dd class="m">30 d</dd></dl>
+<label class="fld">Reason<select><option>Routine · interval due</option><option>Suspected moisture damage</option><option>Pest report</option><option>Price shock / revaluation</option></select></label>
+<label class="fld">Note for inspector (optional)<textarea>Rainy week at Kongwa. Please check moisture on bottom layer.</textarea></label>
+<span class="hint">An inspector is drawn by tx hash. You cannot pick one.</span>
+</div>
+<div class="df"><span></span><span style="display:flex;gap:8px"><button type="button" class="btn s">Cancel</button><button type="button" class="btn">Request</button></span></div>
+</section></div>
+
+<div><div class="cap">Any party · DisputeContract:RaiseDispute</div>
+<section class="dlg" role="dialog" aria-label="Raise dispute">
+<div class="dh"><div><h2>Raise dispute</h2><p class="m">WRT-WH001-000119 · Maize G2 · LN-0039</p></div><button type="button" class="x" aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0B1726" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
+<div class="db">
+<label class="fld">Type<select><option>MINT_ACCURACY · grade or weight wrong at minting</option><option>QUALITY_DEGRADATION · crop worsened in storage</option><option>OTHER</option></select></label>
+<label class="fld">Claim<textarea>Sample drawn on 05 Oct shows broken kernels and discoloration consistent with G3, not G2.</textarea></label>
+<div style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Evidence<div style="border:1.5px dashed #9FB4C7;border-radius:6px;padding:10px 12px;background:#F7FAFC;display:flex;flex-direction:column;gap:2px;font-weight:500"><span class="m" style="font-size:12px">sample_0510.jpg · e40b…7c11</span><span class="m" style="font-size:12px">loading_log.pdf · 22fa…b806</span></div></div>
+<div style="padding:10px 12px;border-radius:6px;background:#FEF6CC;font-size:12px;line-height:1.5">Challenge window closed. Evidence is required. Submitting freezes the receipt and pauses the loan clock.</div>
+</div>
+<div class="df"><span></span><span style="display:flex;gap:8px"><button type="button" class="btn s">Cancel</button><button type="button" class="btn y">Raise and freeze</button></span></div>
+</section></div>
+
+<div><div class="cap">Regulator · DisputeContract:AssignReinspection</div>
+<section class="dlg" role="dialog" aria-label="Assign re-inspection">
+<div class="dh"><div><h2>Assign re-inspection</h2><p class="m">DSP-0018 · DEP-WH001-0129 · MINT_MISMATCH</p></div><button type="button" class="x" aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0B1726" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
+<div class="db">
+<div class="lbl">Draw pool</div>
+<div class="ins"><span class="m">INS-01 · Asha Mrema</span><span class="hint">eligible</span></div>
+<div class="ins" style="background:#F7FAFC;color:#4E6275"><span class="m" style="text-decoration:line-through">INS-02 · Peter Lyimo</span><span class="hint">original reading</span></div>
+<div class="ins"><span class="m">INS-03 · Zawadi Ngowi</span><span class="hint">eligible</span></div>
+<span class="hint">The chaincode picks <span class="m">sha256(txId) mod 2</span>. You confirm the draw; you do not choose the person.</span>
+</div>
+<div class="df"><span></span><span style="display:flex;gap:8px"><button type="button" class="btn s">Cancel</button><button type="button" class="btn">Draw and assign</button></span></div>
+</section></div>
+
+<div><div class="cap">Regulator · DisputeContract:ResolveDispute</div>
+<section class="dlg" role="dialog" aria-label="Resolve dispute">
+<div class="dh"><div><h2>Confirm ruling</h2><p class="m">DSP-0017 · CORRECTED</p></div><button type="button" class="x" aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0B1726" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
+<div class="db">
+<div class="lbl">This will write</div>
+<dl class="kv"><dt>Receipt 000119</dt><dd>G3 · 8,900 kg · 14.6%</dd><dt>Status</dt><dd class="m">UNDER_DISPUTE → PLEDGED</dd><dt>LN-0039 LTV</dt><dd class="m">63.5% → 76.3%</dd><dt>Effect</dt><dd>Margin call · 7 d to cure</dd><dt>Liability</dt><dd class="m">NONE</dd></dl>
+<label class="opt"><input type="checkbox" checked="checked"><span>All parties will see the findings text on the ledger.</span></label>
+</div>
+<div class="df"><button type="button" class="btn s">Back</button><button type="button" class="btn">Sign ruling</button></div>
+</section></div>
+
+<div><div class="cap">Regulator · ReceiptContract:RecordWrrbRegistration</div>
+<section class="dlg" role="dialog" aria-label="Record WRRB number">
+<div class="dh"><div><h2>Record WRRB number</h2><p class="m">WRT-WH001-000125 · Sesame G1 · 3,200 kg</p></div><button type="button" class="x" aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0B1726" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
+<div class="db">
+<label class="fld">WRRB receipt no.<input class="m" type="text" value="WRRB/DOD/2026/004631"></label>
+<dl class="kv"><dt>Warehouse licence</dt><dd class="m">WRRB/LIC/DOD/0112 ✓</dd><dt>Attested by</dt><dd class="m">INS-01 · 10 Oct</dd><dt>Becomes</dt><dd class="m">WRRB_REGISTERED</dd></dl>
+<span class="hint">After this the receipt can be pledged. The number must match the WRRB register.</span>
+</div>
+<div class="df"><span></span><span style="display:flex;gap:8px"><button type="button" class="btn s">Cancel</button><button type="button" class="btn">Register</button></span></div>
+</section></div>
+
+<div><div class="cap">Lender · LoanContract:ExecuteLiquidation</div>
+<section class="dlg" role="dialog" aria-label="Execute liquidation">
+<div class="dh"><div><h2>Execute liquidation</h2><p class="m">LN-0031 · DEFAULTED · WH001-000071</p></div><button type="button" class="x" aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0B1726" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
+<div class="db">
+<div class="g2"><label class="fld">Sale proceeds (TZS)<input class="m" type="text" value="2,572,000"></label><label class="fld">Buyer ref<input class="m" type="text" value="TMX-LOT-26-3381"></label></div>
+<div class="lbl">Escrow waterfall</div>
+<div style="display:flex;height:14px;border-radius:3px;overflow:hidden" role="img" aria-label="2,160,000 to lender, 412,000 surplus to farmer"><div style="width:84%;background:#0B1726"></div><div style="width:16%;background:#FBD116"></div></div>
+<dl class="kv"><dt>1 · Lender (owed)</dt><dd class="m">2,160,000</dd><dt>2 · Farmer surplus</dt><dd class="m">412,000</dd></dl>
+<span class="hint">Irreversible. Receipt and loan both become LIQUIDATED.</span>
+</div>
+<div class="df"><span></span><span style="display:flex;gap:8px"><button type="button" class="btn s">Cancel</button><button type="button" class="btn r">Liquidate</button></span></div>
+</section></div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1400}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

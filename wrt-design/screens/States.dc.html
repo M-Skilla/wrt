@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Empty, error and not-found states · WRT</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F2F6FA}
+a{color:#00739F}a:hover{color:#0B1726}
+.m{font-family:'Geist Mono',ui-monospace,monospace}
+.pd{display:inline-block;width:6px;height:6px;border-radius:50%;background:#00BDFF;margin-right:5px;vertical-align:1px}
+.lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4E6275}
+.card{background:#FFFFFF;border:1px solid #D9E3EC;border-radius:6px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border-radius:6px;border:1px solid #0B1726;background:#0B1726;color:#FFFFFF;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn:hover{color:#FFFFFF;background:#1B3049}
+.btn.s{background:#FFFFFF;color:#0B1726;border-color:#C9D6E2}
+.sk{height:12px;border-radius:3px;background:#EAF0F5}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;font-family:'Plus Jakarta Sans',sans-serif;color:#0B1726;background:#F2F6FA">
+<header style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;padding:10px 20px;background:#0B1726;color:#FFFFFF">
+<a href="Main.dc.html" style="display:flex;align-items:center;gap:10px;color:#FFFFFF;text-decoration:none;font-weight:800;font-size:17px"><span style="width:24px;height:24px;border-radius:5px;background:#FBD116;display:grid;place-items:center"><span style="width:9px;height:11px;border:2px solid #0B1726;border-radius:2px"></span></span>WRT</a>
+<span class="m" style="font-size:12px;color:#8FA6BC">state library · used inside every role view</span>
+</header>
+<main style="box-sizing:border-box;padding:32px;display:flex;flex-direction:column;gap:24px;max-width:1360px;width:100%;margin:0 auto">
+<div><div class="lbl">System states</div><h1 style="margin:6px 0 0;font-size:28px;font-weight:800;letter-spacing:-.02em">Empty, error and not-found</h1></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;align-items:stretch">
+<section class="card" style="padding:28px;display:flex;flex-direction:column;gap:14px;align-items:flex-start">
+<span class="lbl">Empty</span>
+<div style="width:56px;height:56px;border-radius:8px;background:#E0F6FF;display:grid;place-items:center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0B1726" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-6 9 6v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"></path><path d="M9 21v-7h6v7"></path></svg></div>
+<h2 style="margin:0;font-size:20px;font-weight:800">No receipts in custody yet</h2>
+<p style="margin:0;font-size:14px;line-height:1.6;color:#4E6275">Receipts appear here once an inspector attests a deposit within tolerance. Start by recording what arrived at the weighbridge.</p>
+<a class="btn" href="WhRecordDeposit.dc.html">Record deposit</a>
+</section>
+<section class="card" style="padding:28px;display:flex;flex-direction:column;gap:14px;align-items:flex-start;border-color:#E5484D">
+<span class="lbl" style="color:#B4232A">Transaction rejected</span>
+<h2 style="margin:0;font-size:20px;font-weight:800">The chaincode refused this offer</h2>
+<p style="margin:0;font-size:14px;line-height:1.6;color:#4E6275">Nothing was written to the ledger. The message below is returned verbatim by <span class="m">LoanContract:OfferLoan</span>.</p>
+<pre class="m" style="margin:0;width:100%;box-sizing:border-box;white-space:pre-wrap;font-size:12px;line-height:1.6;padding:12px 14px;background:#0B1726;color:#FFFFFF;border-radius:6px">LTV_EXCEEDED
+principal 5,500,000 / collateral 8,557,500
+= 64.27% &gt; maxLtvBp 6000 (60.00%)</pre>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn" href="ModalsA.dc.html">Adjust offer</a><a class="btn s" href="LnCollateral.dc.html">Back to collateral</a></div>
+</section>
+<section class="card" style="padding:28px;display:flex;flex-direction:column;gap:14px;align-items:flex-start">
+<span class="lbl">Not found</span>
+<div class="m" style="font-size:56px;font-weight:600;line-height:1;letter-spacing:-.04em">404</div>
+<h2 style="margin:0;font-size:20px;font-weight:800">No asset with that key</h2>
+<p style="margin:0;font-size:14px;line-height:1.6;color:#4E6275">The world state has no record for <span class="m" style="color:#0B1726">receipt~WRT-WH001-000999</span>. It may never have been minted, or the ID is mistyped.</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn" href="RgExplorer.dc.html">Search the ledger</a><a class="btn s" href="Main.dc.html">Home</a></div>
+</section>
+</div>
+<div class="lbl" style="margin-top:8px">Inline variants</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px">
+<div role="status" style="display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:6px;background:#0B1726;color:#FFFFFF;font-size:13px;line-height:1.5"><span style="width:8px;height:8px;border-radius:50%;background:#00BDFF;margin-top:6px;flex:none"></span><span><b>Committed in block 48,214.</b> Lien released on WRT-WH001-000123. <span class="m" style="color:#8FA6BC">tx 9a31…c0d2</span></span></div>
+<div role="alert" style="display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:6px;background:#FDE7E8;color:#0B1726;font-size:13px;line-height:1.5;border:1px solid #F4B4B6"><span style="width:8px;height:8px;border-radius:50%;background:#E5484D;margin-top:6px;flex:none"></span><span><b>ENDORSEMENT_POLICY_FAILURE.</b> Only WarehouseMSP endorsed; 3 of 4 required.</span></div>
+<div style="display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:6px;background:#FEF6CC;color:#0B1726;font-size:13px;line-height:1.5;border:1px solid #F3DD6B"><span style="width:8px;height:8px;border-radius:50%;background:#FBD116;box-shadow:0 0 0 1px #0B1726;margin-top:6px;flex:none"></span><span><b>Receipt frozen.</b> DSP-0017 is open. Actions on this receipt are paused until the regulator rules.</span></div>
+<div class="card" aria-label="Loading" style="padding:16px;display:flex;flex-direction:column;gap:10px"><div class="sk" style="width:40%"></div><div class="sk" style="width:85%"></div><div class="sk" style="width:65%"></div><span class="m" style="font-size:11px;color:#4E6275">querying peer0.lender…</span></div>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

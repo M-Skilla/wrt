@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Inspection form · WRT</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F2F6FA}
+a{color:#00739F}a:hover{color:#0B1726}
+.m{font-family:'Geist Mono',ui-monospace,monospace}
+.pd{display:inline-block;width:6px;height:6px;border-radius:50%;background:#00BDFF;margin-right:5px;vertical-align:1px}
+.nav a{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:40px;padding:0 12px;border-radius:4px;color:#B8C7D6;text-decoration:none;font-size:14px;font-weight:500}
+.nav a:hover{background:#13253A;color:#FFFFFF}
+.nav a.on{background:#16304A;color:#FFFFFF;box-shadow:inset 3px 0 0 #FBD116}
+.nav .n{font-family:'Geist Mono',monospace;font-size:11px;color:#7F96AC}
+.lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4E6275}
+.card{background:#FFFFFF;border:1px solid #D9E3EC;border-radius:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 8px;border-radius:4px;font-size:12px;font-weight:600;color:#0B1726;background:#EEF3F8;white-space:nowrap}
+.dot{width:7px;height:7px;border-radius:50%;flex:none;background:#8A9BAD}
+.cr{background:#FDE7E8}.cr .dot{background:#E5484D}
+.cg{background:#E2F5EA}.cg .dot{background:#12A150}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:6px;border:1px solid #0B1726;background:#0B1726;color:#FFFFFF;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn:hover{color:#FFFFFF;background:#1B3049}
+.btn.s{background:#FFFFFF;color:#0B1726;border-color:#C9D6E2}
+.btn.y{background:#FBD116;border-color:#FBD116;color:#0B1726}
+.btn.y:hover{background:#F0C400;color:#0B1726}
+.tabs{display:flex;flex-wrap:wrap;gap:4px;padding:4px;background:#E6EDF3;border-radius:6px;width:max-content;max-width:100%}
+.tab{min-height:36px;padding:0 14px;border:0;border-radius:4px;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;color:#4E6275;cursor:pointer}
+.tab.on{background:#FFFFFF;color:#0B1726;box-shadow:0 1px 2px rgba(11,23,38,.12)}
+.cmp{display:grid;grid-template-columns:minmax(110px,.8fr) minmax(0,1fr) minmax(0,1.2fr) minmax(0,1fr);border:1px solid #D9E3EC;border-radius:6px;overflow:hidden}
+.cmp > div{padding:14px 16px;border-bottom:1px solid #EAF0F5;display:flex;align-items:center;gap:8px;font-size:14px;min-width:0}
+.cmp .h{background:#F7FAFC;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#4E6275;padding:10px 16px}
+.cmp .last{border-bottom:0}
+.cmp input,.cmp select{font-family:'Geist Mono',monospace;font-size:15px;font-weight:600;color:#0B1726;min-height:44px;padding:0 12px;border:1.5px solid #0B1726;border-radius:6px;background:#FFFFFF;width:100%;box-sizing:border-box}
+.fld{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:#0B1726}
+.fld textarea{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:#0B1726;min-height:80px;padding:10px 12px;border:1px solid #C9D6E2;border-radius:6px;box-sizing:border-box;width:100%}
+.drop{border:1.5px dashed #9FB4C7;border-radius:6px;padding:14px;display:flex;flex-direction:column;gap:4px;font-size:13px;background:#F7FAFC}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;font-family:'Plus Jakarta Sans',sans-serif;color:#0B1726;background:#F2F6FA">
+<header style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;padding:10px 20px;background:#0B1726;color:#FFFFFF;border-bottom:1px solid #1E3349">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px">
+<a href="Main.dc.html" style="display:flex;align-items:center;gap:10px;color:#FFFFFF;text-decoration:none;font-weight:800;font-size:17px"><span style="width:24px;height:24px;border-radius:5px;background:#FBD116;display:grid;place-items:center"><span style="width:9px;height:11px;border:2px solid #0B1726;border-radius:2px"></span></span>WRT</a>
+<div class="m" style="display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12px;color:#8FA6BC"><span>wrt-channel</span><span>block 48,213</span><span>policy 3 of 4</span><span><span class="pd"></span>WH <span class="pd" style="margin-left:6px"></span>LN <span class="pd" style="margin-left:6px"></span>IN <span class="pd" style="margin-left:6px"></span>RG</span></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-size:13px"><span class="m" style="padding:3px 8px;border:1px solid #2A4058;border-radius:4px;color:#00BDFF;font-size:12px">InspectorMSP</span><span style="color:#B8C7D6">inspector</span><span class="m" style="font-size:12px">INS-03</span><a href="Main.dc.html" style="color:#FBD116;font-weight:600;text-decoration:none">Switch identity</a></div>
+</header>
+<div style="display:flex;flex-wrap:wrap;flex:1">
+<nav class="nav" aria-label="Inspector" style="flex:1 1 220px;box-sizing:border-box;background:#0B1726;padding:16px 12px;display:flex;flex-direction:column;gap:2px">
+<div class="lbl" style="color:#7F96AC;padding:8px 12px 10px">Inspector</div>
+<a href="InQueue.dc.html">Assignment queue<span class="n">4</span></a>
+<a href="InForm.dc.html" class="on">Inspection form</a>
+<a href="InHistory.dc.html">Completed<span class="n">57</span></a>
+<div style="margin-top:auto;padding:16px 12px 4px;font-size:12px;color:#7F96AC;line-height:1.6">Zawadi Ngowi<br><span class="m">ACC/INS/2025/0093</span></div>
+</nav>
+<main style="flex:999 1 560px;min-width:0;box-sizing:border-box;padding:28px 32px 48px;display:flex;flex-direction:column;gap:20px">
+<div class="m" style="font-size:12px;color:#4E6275"><a href="InQueue.dc.html">Queue</a> / DEP-WH001-0131</div>
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px">
+<div><div class="lbl">Kongwa Grain Store · Sesame</div><h1 class="m" style="margin:6px 0 0;font-size:28px;font-weight:600;letter-spacing:-.02em">DEP-WH001-0131</h1></div>
+<div class="tabs" role="tablist" aria-label="Inspection type">
+<button type="button" class="tab on" role="tab" aria-selected="true">Attestation</button>
+<button type="button" class="tab" role="tab" aria-selected="false">Quality check</button>
+<button type="button" class="tab" role="tab" aria-selected="false">Re-inspection</button>
+</div>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+<div style="flex:1 1 560px;min-width:0;display:flex;flex-direction:column;gap:16px">
+<section class="card" style="padding:20px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:center"><h2 style="margin:0;font-size:15px;font-weight:700">Declared vs your reading</h2><span class="chip m" style="font-size:11px">source HUMAN_INSPECTOR</span></div>
+<div class="tw" style="overflow-x:auto">
+<div class="cmp" style="min-width:560px">
+<div class="h">Field</div><div class="h">Declared · WH-001</div><div class="h">Your reading</div><div class="h">Check</div>
+<div style="font-weight:600">Grade</div><div class="m">G1</div>
+<div><label style="width:100%"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Observed grade</span><select value="{{grade}}" onChange="{{setGrade}}"><option value="G1">G1</option><option value="G2">G2</option><option value="G3">G3</option></select></label></div>
+<div><span class="chip {{gCls}}"><span class="dot"></span>{{gTxt}}</span></div>
+<div style="font-weight:600">Net weight (kg)</div><div class="m">4,050</div>
+<div><label style="width:100%"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Observed net weight in kg</span><input type="text" inputmode="numeric" value="{{kg}}" onChange="{{setKg}}"></label></div>
+<div style="flex-direction:column;align-items:flex-start;gap:4px"><span class="chip {{wCls}}"><span class="dot"></span>{{wGap}}</span><span class="m" style="font-size:11px;color:#4E6275">limit ±0.50%</span></div>
+<div style="font-weight:600" class="last">Moisture (%)</div><div class="m last">7.5</div>
+<div class="last"><label style="width:100%"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Observed moisture percent</span><input type="text" inputmode="decimal" value="{{mo}}" onChange="{{setMo}}"></label></div>
+<div class="last" style="flex-direction:column;align-items:flex-start;gap:4px"><span class="chip {{mCls}}"><span class="dot"></span>{{mGap}}</span><span class="m" style="font-size:11px;color:#4E6275">limit ±1.0 pp</span></div>
+</div>
+</div>
+<label style="display:flex;align-items:center;gap:12px;min-height:44px;padding:0 14px;border:1px solid #D9E3EC;border-radius:6px;font-size:14px;cursor:pointer"><input type="checkbox" checked="{{seal}}" onChange="{{toggleSeal}}" style="width:18px;height:18px;accent-color:#0B1726"><span>Sample seal <b class="m">TZ-SL-0101447</b> is intact and matches</span></label>
+<span style="font-size:12px;color:#4E6275">Try changing the weight above 4,070 kg or below 4,030 kg to see the mismatch path.</span>
+</section>
+<section class="card" style="padding:20px;display:flex;flex-direction:column;gap:14px">
+<h2 style="margin:0;font-size:15px;font-weight:700">Evidence</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+<div class="drop"><b>Scale printout</b><span class="m" style="font-size:12px">scale_0131.jpg</span><span class="m" style="font-size:11px;color:#4E6275">sha256 a2c4…19f0</span></div>
+<div class="drop"><b>Moisture meter photo</b><span class="m" style="font-size:12px">mm_0131.jpg</span><span class="m" style="font-size:11px;color:#4E6275">sha256 07be…e4c1</span></div>
+<div class="drop"><b>Add file</b><span style="font-size:12px;color:#4E6275">Drop or <a href="#">browse</a></span></div>
+</div>
+<label class="fld">Notes (optional)<textarea>Bags uniform, no visible pests. Weighed on store scale #2 after zero check.</textarea></label>
+<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 12px;border-radius:6px;background:#F7FAFC;font-size:12px;color:#4E6275"><span class="m" style="padding:2px 6px;border:1px dashed #9FB4C7;border-radius:3px">IOT_DEVICE</span>Reserved source for signed scale and moisture-sensor readings. Not active in this PoC.</div>
+</section>
+</div>
+
+<aside style="flex:1 1 300px;min-width:0;display:flex;flex-direction:column;gap:16px">
+<sc-if value="{{ok}}" hint-placeholder-val="{{ true }}">
+<section style="padding:20px;border-radius:6px;background:#0B1726;color:#FFFFFF;display:flex;flex-direction:column;gap:12px">
+<span class="chip cg" style="align-self:flex-start"><span class="dot"></span>Within tolerance</span>
+<b style="font-size:18px;line-height:1.3">A receipt will be minted with your readings.</b>
+<div class="m" style="display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 14px;font-size:13px;color:#B8C7D6"><span>grade</span><span style="color:#FFFFFF">{{grade}}</span><span>net kg</span><span style="color:#FFFFFF">{{kg}}</span><span>moisture</span><span style="color:#FFFFFF">{{mo}}%</span><span>status</span><span style="color:#FFFFFF">ISSUED · PENDING_WRRB</span></div>
+<button type="button" class="btn y">Submit attestation</button>
+</section>
+</sc-if>
+<sc-if value="{{bad}}" hint-placeholder-val="{{ false }}">
+<section style="padding:20px;border-radius:6px;background:#FDE7E8;border:1px solid #F4B4B6;display:flex;flex-direction:column;gap:12px">
+<span class="chip cr" style="align-self:flex-start"><span class="dot"></span>Outside tolerance</span>
+<b style="font-size:18px;line-height:1.3">No receipt. A MINT_MISMATCH dispute opens automatically.</b>
+<span style="font-size:13px;line-height:1.5">The regulator assigns a second inspector. Submit only what you measured; the warehouse cannot see your reading before you sign.</span>
+<button type="button" class="btn">Submit attestation</button>
+</section>
+</sc-if>
+<section class="card" style="padding:18px 20px;display:flex;flex-direction:column;gap:10px;font-size:13px;line-height:1.5">
+<h2 style="margin:0;font-size:15px;font-weight:700">Why you</h2>
+<span style="color:#4E6275">Drawn by <span class="m" style="color:#0B1726">sha256(txId) mod 3</span> from INS-01, INS-02, INS-03. You declared no conflict with WH-001.</span>
+<span class="m" style="font-size:11px;color:#4E6275">draw tx 3be7a0…c8d1</span>
+</section>
+</aside>
+</div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1350}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { grade: 'G1', kg: '4038', mo: '7.9', seal: true };
+}
+renderVals() {
+var s = this.state;
+var kgN = parseFloat(String(s.kg).replace(/,/g, ''));
+var moN = parseFloat(s.mo);
+var wg = isNaN(kgN) ? 0 : (kgN - 4050) / 4050 * 100;
+var mg = isNaN(moN) ? 0 : moN - 7.5;
+var wOk = !isNaN(kgN) && Math.abs(wg) <= 0.5;
+var mOk = !isNaN(moN) && Math.abs(mg) <= 1.0;
+var gOk = s.grade === 'G1';
+var ok = wOk && mOk && gOk && s.seal;
+var self = this;
+return {
+grade: s.grade, kg: s.kg, mo: s.mo, seal: s.seal,
+gCls: gOk ? 'cg' : 'cr', gTxt: gOk ? 'match' : 'mismatch',
+wCls: wOk ? 'cg' : 'cr', wGap: (wg >= 0 ? '+' : '') + wg.toFixed(2) + '%',
+mCls: mOk ? 'cg' : 'cr', mGap: (mg >= 0 ? '+' : '') + mg.toFixed(1) + ' pp',
+ok: ok, bad: !ok,
+setGrade: function (e) { self.setState({ grade: e.target.value }); },
+setKg: function (e) { self.setState({ kg: e.target.value }); },
+setMo: function (e) { self.setState({ mo: e.target.value }); },
+toggleSeal: function () { self.setState({ seal: !self.state.seal }); }
+};
+}
+}
+</script>
+</body>
+</html>
