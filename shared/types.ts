@@ -187,6 +187,8 @@ export interface PolicyDurations {
   qualityCheckIntervalSecs: Seconds;
   /** Attestation freshness required for disbursement. */
   attestationMaxAgeSecs: Seconds;
+  /** Not in the spec's table: receipt storage term, issuedAt -> expiresAt [PROPOSED: 180 days]. */
+  receiptTermSecs: Seconds;
 }
 
 export interface PolicyParams extends AssetBase<'policyParams'> {
@@ -256,6 +258,8 @@ export interface Deposit extends AssetBase<'deposit'> {
   attestation?: Attestation;
   status: DepositStatus;
   receiptId?: string;
+  /** Not in spec: the auto-opened MINT_MISMATCH dispute, if any. */
+  disputeId?: string;
 }
 
 // ===========================================================================
@@ -354,8 +358,12 @@ export interface WarehouseReceipt extends AssetBase<'receipt'> {
   qualityHistory: QualityCheckSummary[];
   /** Not in spec: open quality-check request, if any. */
   pendingQualityCheck?: QualityCheckRequest;
-  /** Not in spec: set by RequestWithdrawal, cleared by ConfirmRelease. */
+  /** Not in spec: set by RequestWithdrawal. */
   withdrawalRequestedAt?: IsoTimestamp;
+  /** Not in spec: physical release recorded by ConfirmRelease (gate pass is required by the UI). */
+  release?: { gatePassNo: string; releasedAt: IsoTimestamp; releasedBy: string };
+  /** Not in spec: the open dispute while status is UNDER_DISPUTE. */
+  activeDisputeId?: string;
   amendments: Amendment[];
 }
 

@@ -1,0 +1,55 @@
+{
+  "_comment": "Seed data for InitLedger (spec §3.4, §4.5, §4.7). [PROPOSED] values: prices are illustrative, policy defaults await Marko's confirmation (spec §14).",
+  "warehouses": [
+    { "id": "WH-001", "name": "Kongwa Grain Store", "region": "Dodoma", "licenseNo": "WRRB/LIC/DOD/0112", "capacityKg": 2000000, "bondRef": "BOND-DOD-0112-2026" },
+    { "id": "WH-002", "name": "Mvomero Agro Store", "region": "Morogoro", "licenseNo": "WRRB/LIC/MOR/0087", "capacityKg": 1500000, "bondRef": "BOND-MOR-0087-2026" }
+  ],
+  "lenders": [
+    { "id": "LND-BANK-01", "name": "Kilimo Commercial Bank (demo)", "type": "BANK", "licenseNo": "BOT/CB/2019/041" },
+    { "id": "LND-MFI-01", "name": "Dodoma Rural Microfinance (demo)", "type": "MFI", "licenseNo": "BOT/MFI/T2/2023/118" }
+  ],
+  "inspectors": [
+    { "id": "INS-01", "name": "Amina Said", "accreditationNo": "TBS/INSP/0231", "conflictWarehouseIds": [] },
+    { "id": "INS-02", "name": "Baraka Mushi", "accreditationNo": "TBS/INSP/0244", "conflictWarehouseIds": ["WH-002"] },
+    { "id": "INS-03", "name": "Rehema Kweka", "accreditationNo": "TBS/INSP/0257", "conflictWarehouseIds": [] }
+  ],
+  "referencePrices": [
+    { "commodity": "MAIZE", "grade": "G1", "priceTzsPerKg": 850 },
+    { "commodity": "MAIZE", "grade": "G2", "priceTzsPerKg": 760 },
+    { "commodity": "MAIZE", "grade": "G3", "priceTzsPerKg": 680 },
+    { "commodity": "PADDY", "grade": "G1", "priceTzsPerKg": 1100 },
+    { "commodity": "PADDY", "grade": "G2", "priceTzsPerKg": 980 },
+    { "commodity": "PADDY", "grade": "G3", "priceTzsPerKg": 870 },
+    { "commodity": "SESAME", "grade": "G1", "priceTzsPerKg": 3200 },
+    { "commodity": "SESAME", "grade": "G2", "priceTzsPerKg": 2900 },
+    { "commodity": "SESAME", "grade": "G3", "priceTzsPerKg": 2600 },
+    { "commodity": "CASHEW", "grade": "G1", "priceTzsPerKg": 3500 },
+    { "commodity": "CASHEW", "grade": "G2", "priceTzsPerKg": 3150 },
+    { "commodity": "CASHEW", "grade": "G3", "priceTzsPerKg": 2800 }
+  ],
+  "policy": {
+    "maxLtvBp": 6000,
+    "marginCallLtvBp": 7500,
+    "liquidationLtvBp": 8500,
+    "weightToleranceBp": 50,
+    "moistureToleranceBp": 100,
+    "gradeMustMatch": true,
+    "durations": {
+      "marginCallGraceSecs": 604800,
+      "maturityGraceSecs": 1209600,
+      "challengeWindowSecs": 1209600,
+      "qualityCheckIntervalSecs": 2592000,
+      "attestationMaxAgeSecs": 604800,
+      "receiptTermSecs": 15552000
+    },
+    "demoDurations": {
+      "marginCallGraceSecs": 180,
+      "maturityGraceSecs": 180,
+      "challengeWindowSecs": 600,
+      "qualityCheckIntervalSecs": 300,
+      "attestationMaxAgeSecs": 600,
+      "receiptTermSecs": 15552000
+    },
+    "demoMode": true
+  }
+}

@@ -12,8 +12,41 @@ export interface Caller {
   entityId?: string;
 }
 
+interface Kv {
+  key: string;
+  value: Uint8Array;
+}
+
+/** Same next()/close() protocol as fabric-shim's iterators. */
+function iterator<T>(items: T[]) {
+  let i = 0;
+  return {
+    async next() {
+      return i < items.length ? { value: items[i++], done: false } : { value: undefined, done: true };
+    },
+    async close() {},
+  };
+}
+
+function pathValue(obj: unknown, path: string): unknown {
+  return path.split('.').reduce<unknown>((o, k) => (o && typeof o === 'object' ? (o as Record<string, unknown>)[k] : undefined), obj);
+}
+
+/** Minimal CouchDB selector: exact match or {"$in": [...]}, on dotted paths. */
+function matches(doc: unknown, selector: Record<string, unknown>): boolean {
+  return Object.entries(selector).every(([field, cond]) => {
+    const actual = pathValue(doc, field);
+    if (cond && typeof cond === 'object' && Array.isArray((cond as { $in?: unknown[] }).$in)) {
+      return (cond as { $in: unknown[] }).$in.includes(actual);
+    }
+    return actual === cond;
+  });
+}
+
 export class MockStub {
   readonly state = new Map<string, Uint8Array>();
+  readonly history = new Map<string, { txId: string; seconds: number; isDelete: boolean; value: Uint8Array }[]>();
+  readonly privateData = new Map<string, Map<string, Uint8Array>>();
   readonly events: { name: string; payload: ChaincodeEventBatch }[] = [];
   txId = 'tx-0000';
   txSeconds = Date.UTC(2026, 9, 11, 9, 41) / 1000; // 11 Oct 2026 09:41 UTC, the handoff's "today"
@@ -25,10 +58,57 @@ export class MockStub {
 
   async putState(key: string, value: Uint8Array): Promise<void> {
     this.state.set(key, value);
+    const list = this.history.get(key) ?? [];
+    list.push({ txId: this.txId, seconds: this.txSeconds, isDelete: false, value });
+    this.history.set(key, list);
   }
 
   async deleteState(key: string): Promise<void> {
     this.state.delete(key);
+  }
+
+  async getStateByPartialCompositeKey(objectType: string, attributes: string[]) {
+    const prefix = this.createCompositeKey(objectType, attributes);
+    const rows: Kv[] = [...this.state.entries()]
+      .filter(([k]) => k.startsWith(prefix))
+      .sort(([a], [b]) => (a < b ? -1 : 1))
+      .map(([key, value]) => ({ key, value }));
+    return iterator(rows);
+  }
+
+  async getQueryResult(query: string) {
+    const { selector } = JSON.parse(query) as { selector: Record<string, unknown> };
+    const rows: Kv[] = [];
+    for (const [key, value] of this.state.entries()) {
+      let doc: unknown;
+      try {
+        doc = JSON.parse(Buffer.from(value).toString('utf8'));
+      } catch {
+        continue;
+      }
+      if (matches(doc, selector)) rows.push({ key, value });
+    }
+    return iterator(rows);
+  }
+
+  async getHistoryForKey(key: string) {
+    const rows = (this.history.get(key) ?? []).map((h) => ({
+      txId: h.txId,
+      isDelete: h.isDelete,
+      value: h.value,
+      timestamp: { seconds: { toNumber: () => h.seconds }, nanos: 0 },
+    }));
+    return iterator(rows);
+  }
+
+  async putPrivateData(collection: string, key: string, value: Uint8Array): Promise<void> {
+    const c = this.privateData.get(collection) ?? new Map<string, Uint8Array>();
+    c.set(key, value);
+    this.privateData.set(collection, c);
+  }
+
+  async getPrivateData(collection: string, key: string): Promise<Uint8Array> {
+    return this.privateData.get(collection)?.get(key) ?? new Uint8Array();
   }
 
   createCompositeKey(objectType: string, attributes: string[]): string {

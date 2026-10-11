@@ -29,53 +29,60 @@ export type TransitionTable = {
   readonly [D in Domain]: Readonly<Record<StatusByDomain[D], readonly StatusByDomain[D][]>>;
 };
 
-// TODO(human): fill in the allowed next statuses for each status, from spec §5,
-// then implement assertTransition. Tests: test/lib/state-machine.test.ts
+// Allowed moves, derived from the workflows in spec §5. Statuses with an empty
+// list are terminal. Choices beyond the spec are noted inline.
 export const TRANSITIONS: TransitionTable = {
   deposit: {
-    PENDING_ATTESTATION: [],
+    PENDING_ATTESTATION: ['ATTESTED', 'MISMATCH_DISPUTED'], // §5.1 step 4
+    MISMATCH_DISPUTED: ['ATTESTED', 'REJECTED'], // §5.6 MINT_MISMATCH ruling
     ATTESTED: [],
-    MISMATCH_DISPUTED: [],
     REJECTED: [],
   },
   receipt: {
-    ISSUED: [],
-    PLEDGED: [],
-    UNDER_DISPUTE: [],
-    DEFAULTED: [],
+    ISSUED: ['PLEDGED', 'UNDER_DISPUTE', 'REDEEMED'],
+    PLEDGED: ['ISSUED', 'UNDER_DISPUTE', 'DEFAULTED'],
+    // Restores statusBeforeDispute, or CANCELLED on FRAUDULENT. A CORRECTED ruling that
+    // pushes LTV past liquidation restores PLEDGED first, then defaults.
+    UNDER_DISPUTE: ['ISSUED', 'PLEDGED', 'CANCELLED'],
+    // Decision: a defaulted receipt can't be disputed; it goes to liquidation.
+    DEFAULTED: ['LIQUIDATED'],
     LIQUIDATED: [],
     REDEEMED: [],
     CANCELLED: [],
   },
   receiptLegal: {
-    PENDING_WRRB: [],
+    PENDING_WRRB: ['WRRB_REGISTERED'],
     WRRB_REGISTERED: [],
   },
   loan: {
-    OFFERED: [],
-    ACCEPTED: [],
-    ACTIVE: [],
-    MARGIN_CALL: [],
+    OFFERED: ['ACCEPTED', 'CANCELLED'],
+    // Decision: an accepted but undisbursed loan can be cancelled (escrow refunded to the
+    // lender, lien lifted), e.g. by the lender or by a FRAUDULENT ruling on the receipt.
+    ACCEPTED: ['ACTIVE', 'CANCELLED'],
+    ACTIVE: ['MARGIN_CALL', 'REPAID', 'DEFAULTED'],
+    MARGIN_CALL: ['ACTIVE', 'REPAID', 'DEFAULTED'],
+    DEFAULTED: ['LIQUIDATED'],
     REPAID: [],
-    DEFAULTED: [],
     LIQUIDATED: [],
     CANCELLED: [],
   },
   dispute: {
-    OPEN: [],
-    REINSPECTION_ASSIGNED: [],
-    REINSPECTED: [],
+    OPEN: ['REINSPECTION_ASSIGNED'],
+    REINSPECTION_ASSIGNED: ['REINSPECTED'],
+    REINSPECTED: ['RESOLVED'],
     RESOLVED: [],
   },
   entity: {
-    ACTIVE: [],
-    SUSPENDED: [],
+    ACTIVE: ['SUSPENDED', 'REVOKED'],
+    SUSPENDED: ['ACTIVE', 'REVOKED'],
     REVOKED: [],
   },
 };
 
 /** Throws WrtError('ILLEGAL_TRANSITION', ...) unless `to` is listed under `from`. */
 export function assertTransition<D extends Domain>(domain: D, from: StatusByDomain[D], to: StatusByDomain[D]): void {
-  throw new Error('not implemented');
+  const table = TRANSITIONS[domain] as Readonly<Record<StatusByDomain[D], readonly StatusByDomain[D][]>>;
+  if (!table[from].includes(to)) {
+    throw new WrtError('ILLEGAL_TRANSITION', `${domain} ${from} -> ${to}`);
+  }
 }
-// end TODO(human)
