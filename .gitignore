@@ -1,0 +1,12 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+
+# Fabric crypto material and wallets are generated, never committed
+network/organizations/
+network/channel-artifacts/
+backend/wallet/
+backend/uploads/

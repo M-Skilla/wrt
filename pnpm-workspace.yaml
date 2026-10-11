@@ -1,0 +1,6 @@
+packages:
+  - shared
+  - chaincode/wrt
+  - backend
+  - frontend
+  - scripts
