@@ -1,0 +1,30 @@
+{
+  "name": "@wrt/frontend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "WRT web UI (React + Vite + Tailwind), per wrt-design/DESIGN_HANDOFF.md",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -p tsconfig.json --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "5.104.1",
+    "@wrt/shared": "workspace:*",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-router-dom": "6.30.6"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.31",
+    "@types/react-dom": "18.3.7",
+    "@vitejs/plugin-react": "4.7.0",
+    "autoprefixer": "10.6.1",
+    "postcss": "8.5.29",
+    "tailwindcss": "3.4.19",
+    "typescript": "~5.9.3",
+    "vite": "6.4.4"
+  }
+}

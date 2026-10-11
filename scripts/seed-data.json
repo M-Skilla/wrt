@@ -21,7 +21,7 @@
   "lenders": [
     {
       "id": "LND-BANK-01",
-      "name": "Kilimo Commercial Bank (demo)",
+      "name": "Dodoma Agri Bank",
       "type": "BANK",
       "licenseNo": "BOT/CB/2019/041"
     }
@@ -29,13 +29,13 @@
   "inspectors": [
     {
       "id": "INS-01",
-      "name": "Amina Said",
+      "name": "Asha Mrema",
       "accreditationNo": "TBS/INSP/0231",
       "conflictWarehouseIds": []
     },
     {
       "id": "INS-02",
-      "name": "Baraka Mushi",
+      "name": "Peter Lyimo",
       "accreditationNo": "TBS/INSP/0244",
       "conflictWarehouseIds": [
         "WH-002"
@@ -43,7 +43,7 @@
     },
     {
       "id": "INS-03",
-      "name": "Rehema Kweka",
+      "name": "Zawadi Ngowi",
       "accreditationNo": "TBS/INSP/0257",
       "conflictWarehouseIds": []
     }
@@ -138,7 +138,7 @@
   "_onboarding": {
     "LND-MFI-01": {
       "id": "LND-MFI-01",
-      "name": "Dodoma Rural Microfinance (demo)",
+      "name": "Uhuru Rural MFI",
       "type": "MFI",
       "licenseNo": "BOT/MFI/T2/2023/118"
     }
@@ -151,7 +151,7 @@
         "fullName": "Neema Mollel",
         "phone": "+255754100001",
         "nidaNo": "19880412-41101-00001-21",
-        "villageOrWard": "Kongwa, Dodoma"
+        "villageOrWard": "Kongwa"
       }
     },
     {
@@ -161,27 +161,27 @@
         "fullName": "Juma Hassani",
         "phone": "+255754100002",
         "nidaNo": "19910923-41101-00002-17",
-        "villageOrWard": "Mlali, Kongwa"
+        "villageOrWard": "Chamwino"
       }
     },
     {
       "farmerId": "FRM-003",
       "registeredBy": "wh-002-operator",
       "pii": {
-        "fullName": "Rehema Kileo",
+        "fullName": "Rehema Mushi",
         "phone": "+255754100003",
         "nidaNo": "19850217-51102-00003-34",
-        "villageOrWard": "Mvomero, Morogoro"
+        "villageOrWard": "Bahi"
       }
     },
     {
       "farmerId": "FRM-004",
       "registeredBy": "wh-002-operator",
       "pii": {
-        "fullName": "Daudi Mrisho",
+        "fullName": "Baraka Kimaro",
         "phone": "+255754100004",
         "nidaNo": "19930630-51102-00004-29",
-        "villageOrWard": "Turiani, Mvomero"
+        "villageOrWard": "Kongwa"
       }
     }
   ]

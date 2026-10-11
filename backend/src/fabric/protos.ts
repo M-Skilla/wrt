@@ -1,5 +1,5 @@
 import { X509Certificate } from 'node:crypto';
-import { common, gateway, msp, peer } from '@hyperledger/fabric-protos';
+import { common, gateway, ledger, msp, peer } from '@hyperledger/fabric-protos';
 import { setValidationCodeNames } from './errors.js';
 
 /** TxValidationCode number -> name (VALID, ENDORSEMENT_POLICY_FAILURE, MVCC_READ_CONFLICT, ...). */
@@ -51,7 +51,37 @@ export interface ParsedTx {
   fn: string;
   args: string[];
   endorsers: string[];
+  /** Public writes in the wrt namespace, as "docType~id" keys with parsed JSON values. */
+  writes: { key: string; isDelete: boolean; value: unknown }[];
   chaincodeEvent?: { name: string; payload: Uint8Array } | undefined;
+}
+
+/** "\u0000receipt\u0000WRT-WH001-000001\u0000" -> "receipt~WRT-WH001-000001" */
+function readableKey(key: string): string {
+  return key.startsWith('\u0000') ? key.split('\u0000').filter(Boolean).join('~') : key;
+}
+
+function writesOf(ccAction: peer.ChaincodeAction | undefined, namespace: string): ParsedTx['writes'] {
+  const results = ccAction?.getResults_asU8();
+  if (!results || results.length === 0) return [];
+  const rwset = ledger.rwset.TxReadWriteSet.deserializeBinary(results);
+  const out: ParsedTx['writes'] = [];
+  for (const ns of rwset.getNsRwsetList()) {
+    if (ns.getNamespace() !== namespace) continue;
+    const kv = ledger.rwset.kvrwset.KVRWSet.deserializeBinary(ns.getRwset_asU8());
+    for (const w of kv.getWritesList()) {
+      const key = readableKey(w.getKey());
+      if (key.startsWith('counter~')) continue;
+      let value: unknown = null;
+      try {
+        value = JSON.parse(Buffer.from(w.getValue_asU8()).toString('utf8'));
+      } catch {
+        value = null;
+      }
+      out.push({ key, isDelete: w.getIsDelete(), value });
+    }
+  }
+  return out;
 }
 
 /** Parses an endorser transaction envelope. Returns undefined for config transactions. */
@@ -70,6 +100,7 @@ export function parseEnvelope(envelopeBytes: Uint8Array): ParsedTx | undefined {
   let fn = '';
   let args: string[] = [];
   let endorsers: string[] = [];
+  let writes: ParsedTx['writes'] = [];
   let chaincodeEvent: ParsedTx['chaincodeEvent'];
   if (action) {
     const cap = peer.ChaincodeActionPayload.deserializeBinary(action.getPayload_asU8());
@@ -86,6 +117,7 @@ export function parseEnvelope(envelopeBytes: Uint8Array): ParsedTx | undefined {
     endorsers = (endorsed?.getEndorsementsList() ?? []).map((e) => msp.SerializedIdentity.deserializeBinary(e.getEndorser_asU8()).getMspid());
     const prp = endorsed ? peer.ProposalResponsePayload.deserializeBinary(endorsed.getProposalResponsePayload_asU8()) : undefined;
     const ccAction = prp ? peer.ChaincodeAction.deserializeBinary(prp.getExtension_asU8()) : undefined;
+    writes = writesOf(ccAction, 'wrt');
     const evBytes = ccAction?.getEvents_asU8();
     if (evBytes && evBytes.length > 0) {
       const ev = peer.ChaincodeEvent.deserializeBinary(evBytes);
@@ -99,6 +131,7 @@ export function parseEnvelope(envelopeBytes: Uint8Array): ParsedTx | undefined {
     fn,
     args,
     endorsers: [...new Set(endorsers)].sort(),
+    writes,
     chaincodeEvent,
   };
 }

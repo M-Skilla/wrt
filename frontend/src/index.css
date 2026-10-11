@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base: Plus Jakarta Sans everywhere, Geist Mono for identifiers and figures (handoff §2). */
+@layer base {
+  html { -webkit-text-size-adjust: 100%; }
+  body { @apply m-0 bg-canvas font-sans text-ink antialiased; font-size: 14px; }
+  a { @apply text-link; }
+  a:hover { @apply text-ink; }
+  h1, h2, h3 { margin: 0; }
+  :focus-visible { outline: 2px solid #00739F; outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+}
+
+@layer components {
+  .mono { @apply font-mono; }
+  .eyebrow { @apply text-[11px] font-bold uppercase tracking-[0.08em] text-muted; }
+  .page-title { @apply text-[28px] font-extrabold tracking-[-0.02em]; }
+  .id-title { @apply font-mono text-[30px] font-semibold tracking-[-0.02em]; }
+  .section-title { @apply text-[15px] font-bold; }
+  .card { @apply rounded-card border border-line bg-surface; }
+  .card-pad { @apply p-4; }
+
+  .btn { @apply inline-flex min-h-[40px] cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-card border border-ink bg-ink px-4 text-[14px] font-semibold text-white no-underline; }
+  .btn:hover { @apply bg-[#1B3049] text-white; }
+  .btn-secondary { @apply border-input-line bg-surface text-ink; }
+  .btn-secondary:hover { @apply bg-canvas text-ink; }
+  .btn-accent { @apply border-yellow bg-yellow text-ink; }
+  .btn-accent:hover { @apply bg-[#F2C500] text-ink; }
+  .btn-danger { @apply border-danger-strong bg-danger-strong text-white; }
+  .btn-danger:hover { @apply bg-[#A91F25] text-white; }
+  .btn:disabled, .btn[aria-disabled='true'] { @apply cursor-not-allowed opacity-45; }
+  .btn-sm { @apply min-h-[32px] px-3 text-[13px]; }
+  .btn-form { @apply min-h-[44px]; }
+
+  .chip { @apply inline-flex h-[22px] items-center gap-1.5 whitespace-nowrap rounded-chip bg-tint-neutral px-2 text-[12px] font-semibold text-ink; }
+  .chip .dot { @apply h-[7px] w-[7px] flex-none rounded-full bg-neutral-dot; }
+  .chip-cyan { @apply bg-tint-cyan; } .chip-cyan .dot { @apply bg-cyan; }
+  .chip-steel { @apply bg-tint-steel; } .chip-steel .dot { @apply bg-steel; }
+  .chip-yellow { @apply bg-tint-yellow; } .chip-yellow .dot { @apply bg-yellow; box-shadow: 0 0 0 1px #0B1726; }
+  .chip-red { @apply bg-tint-red; } .chip-red .dot { @apply bg-danger; }
+  .chip-green { @apply bg-tint-green; } .chip-green .dot { @apply bg-success; }
+
+  .tbl { @apply w-full border-collapse text-[13px]; }
+  .tbl th { @apply whitespace-nowrap border-b border-line bg-surface-2 px-[14px] py-[10px] text-left text-[11px] font-bold uppercase tracking-[0.06em] text-muted; }
+  .tbl td { @apply border-b border-line-soft px-[14px] py-3 align-top; }
+  .tbl tr:last-child td { @apply border-b-0; }
+  .tbl .r { @apply text-right; }
+  .tbl tr.group td { @apply bg-surface-2 py-2 text-[11px] font-bold uppercase tracking-[0.06em] text-muted; }
+
+  .kv { @apply grid items-baseline gap-x-4 gap-y-2.5 text-[13px]; grid-template-columns: 150px minmax(0, 1fr); }
+  .kv dt { @apply m-0 text-muted; }
+  .kv dd { @apply m-0 font-semibold; }
+
+  .field { @apply flex flex-col gap-1.5 text-[13px] font-semibold; }
+  .input { @apply min-h-[44px] w-full rounded-card border border-input-line bg-surface px-3 font-sans text-[14px] font-normal text-ink; }
+  .input:disabled { @apply bg-surface-2 text-muted; }
+  .hint { @apply text-[12px] font-normal text-muted; }
+  textarea.input { @apply min-h-[88px] py-2.5; }
+
+  .tabs { @apply flex flex-wrap gap-1 border-b border-line; }
+  .tab { @apply -mb-px inline-flex min-h-[40px] cursor-pointer items-center gap-2 border-0 border-b-2 border-transparent bg-transparent px-3 text-[14px] font-semibold text-muted; }
+  .tab[aria-selected='true'] { @apply border-ink text-ink; }
+  .tab .count { @apply rounded-chip bg-tint-neutral px-1.5 font-mono text-[11px] text-ink; }
+  .tab[aria-selected='true'] .count { @apply bg-yellow; }
+
+  .pill { @apply inline-flex min-h-[36px] cursor-pointer items-center gap-2 rounded-full border border-input-line bg-surface px-3 text-[13px] font-semibold text-ink; }
+  .pill[aria-pressed='true'] { @apply border-ink bg-ink text-white; }
+  .pill .count { @apply font-mono text-[11px] opacity-70; }
+
+  .skeleton { @apply animate-pulse rounded bg-line-soft; }
+}

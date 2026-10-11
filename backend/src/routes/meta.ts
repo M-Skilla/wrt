@@ -18,6 +18,8 @@ const ENTITY_DOC: Record<string, string> = {
   inspector: 'inspector',
 };
 
+let namesCache: { at: number; names: Record<string, { displayName?: string; detail?: string }> } | undefined;
+
 async function peerUp(url: string): Promise<boolean> {
   try {
     const res = await fetch(url, { signal: AbortSignal.timeout(1_500) });
@@ -30,8 +32,37 @@ async function peerUp(url: string): Promise<boolean> {
 export async function metaRoutes(app: FastifyInstance): Promise<void> {
   app.get('/health', async () => ({ ok: true, height: explorerHeight() }));
 
-  /** Demo identity picker (handoff screen 01). Service identities are not offered. */
-  app.get('/identities', async () => walletIndex().identities.filter((i) => !i.service));
+  /**
+   * Demo identity picker (handoff screen 01), with display names from the ledger.
+   * Farmer names come from the private collection, read by the service identity
+   * (a farmerPII member). Service identities are not offered.
+   */
+  app.get('/identities', async () => {
+    const people = walletIndex().identities.filter((i) => !i.service);
+    if (namesCache && Date.now() - namesCache.at < 30_000) return people.map((p) => ({ ...p, ...namesCache!.names[p.label] }));
+    const names: Record<string, { displayName?: string; detail?: string }> = {};
+    await Promise.all(
+      people.map(async (p) => {
+        try {
+          if (!p.role || !p.entityId) return;
+          if (p.role === 'farmer') {
+            const pii = await evaluate<{ fullName: string; villageOrWard: string }>(config.serviceIdentity, 'QueryContract:GetFarmerPII', [p.entityId]);
+            names[p.label] = { displayName: pii.fullName, detail: pii.villageOrWard };
+          } else if (p.role === 'regulator_officer') {
+            names[p.label] = { displayName: 'Regulator officer', detail: 'WRRB role' };
+          } else {
+            const doc = ENTITY_DOC[p.role]!;
+            const e = await evaluate<{ name: string; region?: string; type?: string; accreditationNo?: string }>(config.serviceIdentity, 'QueryContract:Get', [doc, p.entityId]);
+            names[p.label] = { displayName: e.name, detail: e.region ?? (e.type === 'BANK' ? 'bank' : e.type ? 'hosted, no peer' : e.accreditationNo) ?? '' };
+          }
+        } catch {
+          // Not on the ledger yet (e.g. LND-MFI-01 before onboarding): no display name.
+        }
+      }),
+    );
+    namesCache = { at: Date.now(), names };
+    return people.map((p) => ({ ...p, ...names[p.label] }));
+  });
 
   /** Who am I: wallet entry, what the chaincode sees, my entity record and hosting tier. */
   app.get('/me', async (req) => {
