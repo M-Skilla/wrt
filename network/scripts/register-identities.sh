@@ -23,7 +23,13 @@ entries=()
 while read -r entity_id role org; do
   [[ -z ${entity_id:-} || $entity_id == \#* ]] && continue
 
-  label="$(tr '[:upper:]' '[:lower:]' <<<"$entity_id")-$(role_short "$role")"
+  if [[ $role == - ]]; then
+    label="$(tr '[:upper:]' '[:lower:]' <<<"$entity_id")"
+    attrs=()
+  else
+    label="$(tr '[:upper:]' '[:lower:]' <<<"$entity_id")-$(role_short "$role")"
+    attrs=(--id.attrs "wrt.role=$role:ecert,wrt.entityId=$entity_id:ecert")
+  fi
   domain="$org.wrt.local"
   org_dir="$ORGS_DIR/peerOrganizations/$domain"
   ca_tls="$ORGS_DIR/fabric-ca/$org/tls-cert.pem"
@@ -40,8 +46,7 @@ while read -r entity_id role org; do
     echo "== Registering $label ($role for $entity_id) with ca-$org"
     # ':ecert' puts the attribute into every enrollment certificate by default.
     fabric-ca-client register --caname "ca-$org" --tls.certfiles "$ca_tls" \
-      --id.name "$label" --id.secret "$secret" --id.type client \
-      --id.attrs "wrt.role=$role:ecert,wrt.entityId=$entity_id:ecert"
+      --id.name "$label" --id.secret "$secret" --id.type client "${attrs[@]}"
   fi
 
   # Fresh folder each time, so keystore/ never holds a key from an older enrollment.
@@ -56,8 +61,9 @@ while read -r entity_id role org; do
   cp "$msp_dir"/keystore/*_sk "$WALLET_DIR/$label/key.pem"
   chmod 600 "$WALLET_DIR/$label/key.pem"
 
-  entries+=("$(jq -nc --arg label "$label" --arg mspId "$(org_msp "$org")" \
-    --arg role "$role" --arg entityId "$entity_id" '{label: $label, mspId: $mspId, role: $role, entityId: $entityId}')")
+  entries+=("$(jq -nc --arg label "$label" --arg mspId "$(org_msp "$org")" --arg role "$role" --arg entityId "$entity_id" \
+    'if $role == "-" then {label: $label, mspId: $mspId, role: null, entityId: null, service: true}
+     else {label: $label, mspId: $mspId, role: $role, entityId: $entityId} end')")
 done < "$CONF"
 
 # Per-org peer connection details, so the backend can reach each identity's own org peer.

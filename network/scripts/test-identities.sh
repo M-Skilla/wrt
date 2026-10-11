@@ -19,7 +19,7 @@ while read -r label mspId role entityId; do
   want=$(jq -nc --arg m "$mspId" --arg r "$role" --arg e "$entityId" '{mspId: $m, role: $r, entityId: $e}')
   [[ $(jq -cS . <<<"$got") == $(jq -cS . <<<"$want") ]] || fail "$label: got $got, want $want"
   pass "$(printf '%-22s %-13s %-19s %s' "$label" "$mspId" "$role" "$entityId")"
-done < <(jq -r '.identities[] | "\(.label) \(.mspId) \(.role) \(.entityId)"' "$WALLET_DIR/index.json")
+done < <(jq -r '.identities[] | select(.service != true) | "\(.label) \(.mspId) \(.role) \(.entityId)"' "$WALLET_DIR/index.json")
 
 echo "== 2. Org Admins carry no wrt.* attributes (they administer nodes, not business)"
 set_org warehouse Admin
