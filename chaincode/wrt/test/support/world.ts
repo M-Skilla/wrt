@@ -69,6 +69,8 @@ export class World {
 export async function seededWorld(): Promise<World> {
   const w = new World();
   await w.call(CALLERS.reg, 'registry', 'InitLedger', JSON.stringify(SEED));
+  const mfi = SEED._onboarding['LND-MFI-01'];
+  await w.call(CALLERS.reg, 'registry', 'RegisterLender', mfi.id, mfi.name, mfi.type, mfi.licenseNo);
   for (const id of ['FRM-001', 'FRM-002']) {
     w.stub.transient = new Map([['pii', Buffer.from(JSON.stringify({ fullName: `Farmer ${id}`, phone: '+255700000001', nidaNo: `NIDA-${id}`, villageOrWard: 'Kongwa' }))]]);
     await w.call(CALLERS.wh001, 'registry', 'RegisterFarmer', id);

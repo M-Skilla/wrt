@@ -1,31 +1,114 @@
 {
-  "_comment": "Seed data for InitLedger (spec §3.4, §4.5, §4.7). [PROPOSED] values: prices are illustrative, policy defaults await Marko's confirmation (spec §14).",
+  "_comment": "Seed data for InitLedger (spec §3.4, §4.5, §4.7). [PROPOSED] values: prices are illustrative, policy defaults await Marko's confirmation (spec §14). LND-MFI-01 is deliberately absent: registering it on-chain is scenario S7 (hosted MFI onboarding).",
   "warehouses": [
-    { "id": "WH-001", "name": "Kongwa Grain Store", "region": "Dodoma", "licenseNo": "WRRB/LIC/DOD/0112", "capacityKg": 2000000, "bondRef": "BOND-DOD-0112-2026" },
-    { "id": "WH-002", "name": "Mvomero Agro Store", "region": "Morogoro", "licenseNo": "WRRB/LIC/MOR/0087", "capacityKg": 1500000, "bondRef": "BOND-MOR-0087-2026" }
+    {
+      "id": "WH-001",
+      "name": "Kongwa Grain Store",
+      "region": "Dodoma",
+      "licenseNo": "WRRB/LIC/DOD/0112",
+      "capacityKg": 2000000,
+      "bondRef": "BOND-DOD-0112-2026"
+    },
+    {
+      "id": "WH-002",
+      "name": "Mvomero Agro Store",
+      "region": "Morogoro",
+      "licenseNo": "WRRB/LIC/MOR/0087",
+      "capacityKg": 1500000,
+      "bondRef": "BOND-MOR-0087-2026"
+    }
   ],
   "lenders": [
-    { "id": "LND-BANK-01", "name": "Kilimo Commercial Bank (demo)", "type": "BANK", "licenseNo": "BOT/CB/2019/041" },
-    { "id": "LND-MFI-01", "name": "Dodoma Rural Microfinance (demo)", "type": "MFI", "licenseNo": "BOT/MFI/T2/2023/118" }
+    {
+      "id": "LND-BANK-01",
+      "name": "Kilimo Commercial Bank (demo)",
+      "type": "BANK",
+      "licenseNo": "BOT/CB/2019/041"
+    }
   ],
   "inspectors": [
-    { "id": "INS-01", "name": "Amina Said", "accreditationNo": "TBS/INSP/0231", "conflictWarehouseIds": [] },
-    { "id": "INS-02", "name": "Baraka Mushi", "accreditationNo": "TBS/INSP/0244", "conflictWarehouseIds": ["WH-002"] },
-    { "id": "INS-03", "name": "Rehema Kweka", "accreditationNo": "TBS/INSP/0257", "conflictWarehouseIds": [] }
+    {
+      "id": "INS-01",
+      "name": "Amina Said",
+      "accreditationNo": "TBS/INSP/0231",
+      "conflictWarehouseIds": []
+    },
+    {
+      "id": "INS-02",
+      "name": "Baraka Mushi",
+      "accreditationNo": "TBS/INSP/0244",
+      "conflictWarehouseIds": [
+        "WH-002"
+      ]
+    },
+    {
+      "id": "INS-03",
+      "name": "Rehema Kweka",
+      "accreditationNo": "TBS/INSP/0257",
+      "conflictWarehouseIds": []
+    }
   ],
   "referencePrices": [
-    { "commodity": "MAIZE", "grade": "G1", "priceTzsPerKg": 850 },
-    { "commodity": "MAIZE", "grade": "G2", "priceTzsPerKg": 760 },
-    { "commodity": "MAIZE", "grade": "G3", "priceTzsPerKg": 680 },
-    { "commodity": "PADDY", "grade": "G1", "priceTzsPerKg": 1100 },
-    { "commodity": "PADDY", "grade": "G2", "priceTzsPerKg": 980 },
-    { "commodity": "PADDY", "grade": "G3", "priceTzsPerKg": 870 },
-    { "commodity": "SESAME", "grade": "G1", "priceTzsPerKg": 3200 },
-    { "commodity": "SESAME", "grade": "G2", "priceTzsPerKg": 2900 },
-    { "commodity": "SESAME", "grade": "G3", "priceTzsPerKg": 2600 },
-    { "commodity": "CASHEW", "grade": "G1", "priceTzsPerKg": 3500 },
-    { "commodity": "CASHEW", "grade": "G2", "priceTzsPerKg": 3150 },
-    { "commodity": "CASHEW", "grade": "G3", "priceTzsPerKg": 2800 }
+    {
+      "commodity": "MAIZE",
+      "grade": "G1",
+      "priceTzsPerKg": 850
+    },
+    {
+      "commodity": "MAIZE",
+      "grade": "G2",
+      "priceTzsPerKg": 760
+    },
+    {
+      "commodity": "MAIZE",
+      "grade": "G3",
+      "priceTzsPerKg": 680
+    },
+    {
+      "commodity": "PADDY",
+      "grade": "G1",
+      "priceTzsPerKg": 1100
+    },
+    {
+      "commodity": "PADDY",
+      "grade": "G2",
+      "priceTzsPerKg": 980
+    },
+    {
+      "commodity": "PADDY",
+      "grade": "G3",
+      "priceTzsPerKg": 870
+    },
+    {
+      "commodity": "SESAME",
+      "grade": "G1",
+      "priceTzsPerKg": 3200
+    },
+    {
+      "commodity": "SESAME",
+      "grade": "G2",
+      "priceTzsPerKg": 2900
+    },
+    {
+      "commodity": "SESAME",
+      "grade": "G3",
+      "priceTzsPerKg": 2600
+    },
+    {
+      "commodity": "CASHEW",
+      "grade": "G1",
+      "priceTzsPerKg": 3500
+    },
+    {
+      "commodity": "CASHEW",
+      "grade": "G2",
+      "priceTzsPerKg": 3150
+    },
+    {
+      "commodity": "CASHEW",
+      "grade": "G3",
+      "priceTzsPerKg": 2800
+    }
   ],
   "policy": {
     "maxLtvBp": 6000,
@@ -51,5 +134,55 @@
       "receiptTermSecs": 15552000
     },
     "demoMode": true
-  }
+  },
+  "_onboarding": {
+    "LND-MFI-01": {
+      "id": "LND-MFI-01",
+      "name": "Dodoma Rural Microfinance (demo)",
+      "type": "MFI",
+      "licenseNo": "BOT/MFI/T2/2023/118"
+    }
+  },
+  "_farmers": [
+    {
+      "farmerId": "FRM-001",
+      "registeredBy": "wh-001-operator",
+      "pii": {
+        "fullName": "Neema Mollel",
+        "phone": "+255754100001",
+        "nidaNo": "19880412-41101-00001-21",
+        "villageOrWard": "Kongwa, Dodoma"
+      }
+    },
+    {
+      "farmerId": "FRM-002",
+      "registeredBy": "wh-001-operator",
+      "pii": {
+        "fullName": "Juma Hassani",
+        "phone": "+255754100002",
+        "nidaNo": "19910923-41101-00002-17",
+        "villageOrWard": "Mlali, Kongwa"
+      }
+    },
+    {
+      "farmerId": "FRM-003",
+      "registeredBy": "wh-002-operator",
+      "pii": {
+        "fullName": "Rehema Kileo",
+        "phone": "+255754100003",
+        "nidaNo": "19850217-51102-00003-34",
+        "villageOrWard": "Mvomero, Morogoro"
+      }
+    },
+    {
+      "farmerId": "FRM-004",
+      "registeredBy": "wh-002-operator",
+      "pii": {
+        "fullName": "Daudi Mrisho",
+        "phone": "+255754100004",
+        "nidaNo": "19930630-51102-00004-29",
+        "villageOrWard": "Turiani, Mvomero"
+      }
+    }
+  ]
 }

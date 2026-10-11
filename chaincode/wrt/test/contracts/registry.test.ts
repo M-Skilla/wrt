@@ -7,7 +7,7 @@ describe('RegistryContract', () => {
     await expect(w.call(CALLERS.wh001, 'registry', 'InitLedger', JSON.stringify(SEED))).rejects.toThrow(/^NOT_AUTHORISED/);
     expect(await w.call(CALLERS.reg, 'registry', 'InitLedger', JSON.stringify(SEED))).toEqual({
       warehouses: 2,
-      lenders: 2,
+      lenders: 1,
       inspectors: 3,
       referencePrices: 12,
     });

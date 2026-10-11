@@ -26,7 +26,7 @@ export interface HistoryEntry<T> {
   value: T | null;
 }
 
-/** Every committed version of a key, oldest first (getHistoryForKey only returns valid txs). */
+/** Every committed version of a key (getHistoryForKey only returns valid txs). Order is the peer's; callers sort. */
 export async function collectHistory<T>(iteratorPromise: Promise<Iterators.HistoryQueryIterator>): Promise<HistoryEntry<T>[]> {
   const iterator = await iteratorPromise;
   const out: HistoryEntry<T>[] = [];

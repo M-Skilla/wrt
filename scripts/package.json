@@ -1,0 +1,28 @@
+{
+  "name": "@wrt/scripts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Seed and end-to-end scenario scripts (S1-S7) that drive the WRT API",
+  "type": "module",
+  "scripts": {
+    "seed": "tsx seed.ts",
+    "seed:demo": "tsx seed.ts --demo",
+    "scenarios": "tsx scenarios/run-all.ts",
+    "s1": "tsx scenarios/S1.ts",
+    "s2": "tsx scenarios/S2.ts",
+    "s3": "tsx scenarios/S3.ts",
+    "s4": "tsx scenarios/S4.ts",
+    "s5": "tsx scenarios/S5.ts",
+    "s6": "tsx scenarios/S6.ts",
+    "s7": "tsx scenarios/S7.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@wrt/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.5",
+    "tsx": "4.23.15",
+    "typescript": "~5.9.3"
+  }
+}
