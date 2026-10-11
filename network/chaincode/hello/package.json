@@ -1,0 +1,17 @@
+{
+  "name": "wrt-hello",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Milestone 1 smoke-test chaincode: proves the 3-of-4 endorsement path and exposes caller identity",
+  "main": "index.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "fabric-chaincode-node start"
+  },
+  "dependencies": {
+    "fabric-contract-api": "2.5.8",
+    "fabric-shim": "2.5.8"
+  }
+}
