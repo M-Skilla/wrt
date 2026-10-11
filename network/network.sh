@@ -6,7 +6,8 @@
 #   ./network.sh deployCC [flags]    deploy chaincode (default: the milestone-1 hello chaincode)
 #                                    flags: -n name -p path -v version -s sequence -c collections.json
 #   ./network.sh testHello           milestone-1 acceptance check
-#   ./network.sh registerIdentities  seed identities with wrt.* attributes   (milestone 2)
+#   ./network.sh registerIdentities  register seed identities (identities.conf) and write backend/wallet
+#   ./network.sh testIdentities      milestone-2 acceptance check
 #   ./network.sh seed                seed ledger data                         (later milestone)
 #   ./network.sh down                stop everything and delete all generated state
 set -euo pipefail
@@ -47,6 +48,8 @@ network_down() {
   [[ -n $cc_images ]] && docker rmi -f $cc_images >/dev/null
   echo "== Deleting generated crypto material and channel artifacts"
   rm -rf "$NETWORK_DIR/organizations" "$NETWORK_DIR/channel-artifacts"
+  # Wallet certs are signed by CAs that no longer exist after this.
+  rm -rf "$NETWORK_DIR/../backend/wallet"
   echo "== Network is down"
 }
 
@@ -65,7 +68,8 @@ case $cmd in
   createChannel)      "$SCRIPTS/channel.sh" ;;
   deployCC)           deploy_cc "$@" ;;
   testHello)          "$SCRIPTS/test-hello.sh" "$@" ;;
-  registerIdentities) echo "registerIdentities is built in milestone 2 (spec §13)" >&2; exit 1 ;;
+  registerIdentities) "$SCRIPTS/register-identities.sh" ;;
+  testIdentities)     "$SCRIPTS/test-identities.sh" "$@" ;;
   seed)               echo "seed is built after the chaincode exists (spec §13)" >&2; exit 1 ;;
   *) sed -n '2,12p' "$0" | sed 's/^# \{0,1\}//'; exit 1 ;;
 esac

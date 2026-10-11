@@ -80,6 +80,20 @@ Without it, every valid cert is just a generic `member`. Policies like `'Warehou
 
 They meet at block 0: `configtx.yaml` points at each org's `MSPDir`, and `configtxgen` copies that folder's CA certs **and** `config.yaml` rules into the genesis block. After that, peers judge signatures using the copy **in the channel**, not the file on disk.
 
+### 3.5 CA vs MSP
+The **CA issues** certificates; the **MSP defines which CAs to trust** and how to read roles. Validation only ever uses the MSP (its copy in the channel config), so the CA can be offline and transactions still validate. The CA is only needed to enroll, re-enroll or revoke.
+
+### 3.6 Certificate attributes: what the chaincode knows about the caller
+On top of the OU role, WRT identities carry two custom **attributes** baked into the certificate by the CA:
+
+```
+{"attrs":{"wrt.role":"farmer","wrt.entityId":"FRM-001", "hf.EnrollmentID":"frm-001-farmer", ...}}
+```
+
+They're registered with the `:ecert` suffix, which means "put this in every enrollment cert". Without `:ecert` the CA stores the attribute but leaves it out of the cert, and the chaincode, which only sees the cert, gets `null`.
+
+The chaincode should trust `wrt.role` **only together with the MSP ID**: the attribute is only as trustworthy as the CA that signed it, and the MSP ID says which CA that was. A Lender-CA cert claiming `wrt.role=farmer` must be rejected. This is why spec §3.4 says check both.
+
 ---
 
 ## 4. The life of a transaction
@@ -124,7 +138,7 @@ The first two both happen to be "3 of 4" but are separate: one controls *who mus
 
 ## 6. File by file, in the order things happen
 
-`./network.sh up && ./network.sh createChannel && ./network.sh deployCC && ./network.sh testHello`
+`./network.sh up && ./network.sh createChannel && ./network.sh deployCC && ./network.sh registerIdentities`
 
 ### `network.sh up`
 1. **`scripts/install-binaries.sh`** downloads the CLI tools (`peer`, `configtxgen`, `osnadmin`, `fabric-ca-client`) into `.fabric/`, at the same versions as the Docker images (Fabric 2.5.16, CA 1.5.17).
@@ -166,12 +180,47 @@ The milestone 1 acceptance check:
 2. Each org reads all 4 keys from **its own** peer and gets the same values, proving the copies agree. ✓
 3. **Tamper attempt**: the Warehouse writes with only its own peer's signature. It's ordered into a block, then every peer marks it `ENDORSEMENT_POLICY_FAILURE` and state is unchanged. ✓
 
+### `network.sh registerIdentities` → `scripts/register-identities.sh`
+Reads `identities.conf` (the 12 seed identities from spec §3.4) and for each:
+1. **registers** it with its org's CA as type `client`, with `wrt.role` and `wrt.entityId` as `:ecert` attributes (skipped if already registered, so re-running is safe);
+2. **enrolls** it into `organizations/peerOrganizations/<org>/users/<label>@<org>.wrt.local/msp`;
+3. **exports** it to the backend wallet.
+
+Which CA issues an identity decides which MSP it acts under. Farmers are issued by the **Warehouse** CA: they're Tier-2 hosted members with no node of their own, so they act as `WarehouseMSP` through the Warehouse peer.
+
+| Label (enrollment ID) | MSP | wrt.role | wrt.entityId |
+|---|---|---|---|
+| `wh-001-operator`, `wh-002-operator` | WarehouseMSP | warehouse_operator | WH-001, WH-002 |
+| `frm-001-farmer` … `frm-004-farmer` | WarehouseMSP | farmer | FRM-001 … FRM-004 |
+| `lnd-bank-01-officer`, `lnd-mfi-01-officer` | LenderMSP | lender_officer | LND-BANK-01, LND-MFI-01 |
+| `ins-01-inspector` … `ins-03-inspector` | InspectorMSP | inspector | INS-01 … INS-03 |
+| `reg-01-officer` | RegulatorMSP | regulator_officer | REG-01 |
+
+The org **Admins** from `enroll.sh` have no `wrt.*` attributes: they administer nodes (join channels, approve chaincode), they don't do business.
+
+**Wallet** (`backend/wallet/`, git-ignored, deleted by `down`). The Gateway SDK has no wallet object: it needs a cert, a private key and where the identity's org peer is.
+
+```
+backend/wallet/
+  index.json               {identities: [{label, mspId, role, entityId}],
+                            orgs: {<MspId>: {peerEndpoint, peerHostAlias, tlsCACert}}}
+  tls/<org>-ca.crt         TLS CA to verify each org's peer
+  <label>/cert.pem         identity cert (the attributes are inside it)
+  <label>/key.pem          its private key
+```
+
+`peerHostAlias` exists because the backend connects to `localhost:8051` but the peer's TLS cert is issued for `peer0.lender.wrt.local`; the alias tells gRPC which name to check the cert against.
+
+### `network.sh testIdentities` → `scripts/test-identities.sh`
+Milestone 2 acceptance: calls `WhoAmI` **as each identity** and checks the chaincode sees the right MSP, role and entity ID; checks Admins have no role; checks each wallet key matches its cert.
+
 ### `scripts/env.sh`
-Not a step; a helper the others `source`. `set_org lender` sets the four variables that make the `peer` CLI act as the Lender Admin against the Lender peer. Use it yourself:
+Not a step; a helper the others `source`. `set_org lender` sets the four variables that make the `peer` CLI act as the Lender Admin against the Lender peer. A second argument picks another identity. Use it yourself:
 
 ```bash
 source scripts/env.sh
-set_org inspector
+set_org inspector                       # as Admin@inspector.wrt.local
+set_org warehouse frm-002-farmer        # as farmer FRM-002
 peer chaincode query -C wrt-channel -n hello -c '{"function":"WhoAmI","Args":[]}'
 ```
 
@@ -250,4 +299,6 @@ Browse each org's world state in CouchDB's UI at `http://localhost:<port>/_utils
 | **Anchor peer** | The peer other orgs contact first to discover an org's peers via gossip. |
 | **Chaincode lifecycle** | package → install → approve → commit. |
 | **Package ID / label / sequence** | Hash of the code package / its name / the definition's version counter. |
+| **Attribute** | Custom key=value inside a cert (e.g. `wrt.role`), set by the CA at registration. |
+| **Wallet** | Folder of identity cert + key files the backend signs with. |
 | **Validation code** | Per-tx verdict a peer stamps on each block (`VALID`, `ENDORSEMENT_POLICY_FAILURE`, …). |
