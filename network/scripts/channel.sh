@@ -11,8 +11,13 @@ echo "== Generating genesis block for $CHANNEL_NAME"
 FABRIC_CFG_PATH="$NETWORK_DIR" configtxgen -profile WRTChannel -outputBlock "$BLOCK" -channelID "$CHANNEL_NAME"
 
 echo "== Orderer joins $CHANNEL_NAME"
-osnadmin channel join --channelID "$CHANNEL_NAME" --config-block "$BLOCK" -o localhost:7053 \
-  --ca-file "$ORDERER_CA" --client-cert "$ORDERER_ADMIN_CERT" --client-key "$ORDERER_ADMIN_KEY"
+# On a fresh `up` the orderer's admin endpoint takes a few seconds to start listening.
+for attempt in 1 2 3 4 5 6 7 8 9 10; do
+  if osnadmin channel join --channelID "$CHANNEL_NAME" --config-block "$BLOCK" -o localhost:7053 \
+    --ca-file "$ORDERER_CA" --client-cert "$ORDERER_ADMIN_CERT" --client-key "$ORDERER_ADMIN_KEY"; then break; fi
+  [[ $attempt == 10 ]] && { echo "orderer failed to join $CHANNEL_NAME" >&2; exit 1; }
+  sleep 2
+done
 
 # Raft needs a moment to elect itself leader before peers can pull blocks.
 for org in "${ALL_ORGS[@]}"; do

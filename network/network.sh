@@ -41,10 +41,11 @@ network_down() {
   echo "== Stopping containers and removing volumes"
   compose down -v --remove-orphans
   # Chaincode containers/images are started by the peers, not by compose.
+  # Match only WRT peers so other Fabric networks on this host are left alone.
   local cc_containers cc_images
-  cc_containers=$(docker ps -aq --filter 'name=dev-peer0' || true)
+  cc_containers=$(docker ps -aq --filter 'name=^dev-peer0\..*\.wrt\.local-' || true)
   [[ -n $cc_containers ]] && docker rm -f $cc_containers >/dev/null
-  cc_images=$(docker images -q --filter 'reference=dev-peer0*' || true)
+  cc_images=$(docker images -q --filter 'reference=dev-peer0.*.wrt.local-*' || true)
   [[ -n $cc_images ]] && docker rmi -f $cc_images >/dev/null
   echo "== Deleting generated crypto material and channel artifacts"
   rm -rf "$NETWORK_DIR/organizations" "$NETWORK_DIR/channel-artifacts"
